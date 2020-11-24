@@ -1,4 +1,10 @@
-# Degrees of Lewdity
+# Degrees of Lewdity Modding Framework
+
+## Note:
+This repo is currently only set to be edited on Gitgud with a mirror hosted for convenience on GitHub.
+https://gitgud.io/dol-modders/dol-modding-framework
+https://github.com/DOL-Modders/DOL-Modding-Framework
+
 
 ## How to build
 
