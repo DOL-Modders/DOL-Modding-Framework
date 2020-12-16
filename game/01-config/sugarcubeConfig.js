@@ -2,7 +2,7 @@ Config.history.controls = false;
 
 Config.history.maxStates = 1;
 
-State.initPRNG();
+State.prng.init()
 
 window.versionUpdateCheck = true;
 
@@ -20,7 +20,7 @@ window.StartConfig = {
 	"debug": false,
 	"enableImages": true,
 	"enableLinkNumberify": true,
-	"version": "0.2.18.2",
+	"version": "0.2.19.2",
 }
 
 config.saves.autosave = "autosave";
@@ -216,3 +216,17 @@ Macro.add('widget', {
 		}
 	}
 });
+
+/* ToDo: imprement the dolls system, uncomment during and when its setup
+importScripts([
+    "img/dolls/NameValueMaps.js",
+    "img/dolls/dollUpdater.js",
+    "img/dolls/dollLoader.js",
+    "img/dolls/DollHouse.js",
+    "img/dolls/FDoll.js",
+]).then(function () {
+    console.log("Dolls scripts running");
+})
+.catch(function (err) {
+    console.log(err);
+});*/

@@ -3,7 +3,7 @@
 <div @class="($debugLines ? 'debugLines-effectsman' : '')">
 <!-- "FOR" loops work by counting backward from highest numbered combatant to lowest e.g. 5 to 0. -->
 <!-- In case of train combat, count stops after 1, e.g. 5 to 5. -->
-<!-- Lots of further opportunity to reduce code using <<for>> loops with NPC objects NG 2.8-->
+<!-- Lots of further opportunity to reduce code using <<for>><</for>> loops with NPC objects NG 2.8-->
 
 <<if $combattype is "train">>
 	<<set _end to $enemyno-1>>
@@ -1211,10 +1211,10 @@
 			<</if>>
 		<</for>>
 		<<for _j = 0; _j lt $enemyno; _j++>>
-			<<if $NPCList[_j].lefthand is "head_breasts" or $NPCList[_j].lefthand is "head_nipple">>
+			<<if $NPCList[_j].lefthand is "head_breasts" or $NPCList[_j].lefthand is "head_nipples">>
 				<<set $NPCList[_j].lefthand to 0>>
 			<</if>>
-			<<if $NPCList[_j].righthand is "head_breasts" or $NPCList[_j].righthand is "head_nipple">>
+			<<if $NPCList[_j].righthand is "head_breasts" or $NPCList[_j].righthand is "head_nipples">>
 				<<set $NPCList[_j].righthand to 0>>
 			<</if>>
 		<</for>>
@@ -1241,7 +1241,7 @@
 		<<for _j = 0; _j lt $enemyno; _j++>>
 			<<if $NPCList[_j].chest is 0 and $NPCList[_j].location.genitals isnot "head" and $NPCList[_j].location.head isnot "head" and $NPCList[_j].location.head isnot "genitals">>
 				<span class="lblue">You <<oraltext>> move your mouth to <<hisselect _j>> $NPCList[_j].breastsdesc.</span>
-				<<set $NPCList[_j].chest to "mouthentrance">><<set $mouthstate to "breasts">><<set $mouthuse to "breasts">><<oralskilluse>>
+				<<set $NPCList[_j].chest to "mouthentrance">><<set $mouthstate to "breasts">><<set $mouthuse to "breasts">><<set $head to "breasts">><<oralskilluse>>
 				<<set $NPCList[_n].location.head to "head">>
 				<<break>>
 			<</if>>

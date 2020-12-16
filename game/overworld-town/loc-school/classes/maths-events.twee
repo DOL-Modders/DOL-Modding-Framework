@@ -20,7 +20,7 @@ River gives you an angry look for disrupting <<his>> class.
 Not wanting to cause a fuss, you decide to put up with it. Fortunately, they don't take things too far, content to poke you with rulers when River isn't looking.
 <br><br>
 
-<<link [[Next |Maths Lesson]]>><<endevent>><</link>>
+<<link [[Next|Maths Lesson]]>><<endevent>><</link>>
 <</if>>
 
 :: Maths Event2 [nobr]
@@ -1296,7 +1296,7 @@ You make sure that River is distracted on the other side of the room, then slip 
 <br><br>
 
 <<endevent>><<npc River>><<person1>>
-River steadies <<himself>> against a nearby desk as a murmer of laughter erupts across the room. The teacher steels <<himself>>, and silences the class with a glare, before turning back to Whitney. "Go see Leighton. Now!"
+River steadies <<himself>> against a nearby desk as a murmur of laughter erupts across the room. The teacher steels <<himself>>, and silences the class with a glare, before turning back to Whitney. "Go see Leighton. Now!"
 <br><br>
 
 <<endevent>><<npc Whitney>><<person1>>Whitney rises to <<his>> feet. "Sure," <<he>> yawns. "I got what I came for." <<He>> swaggers from the room.

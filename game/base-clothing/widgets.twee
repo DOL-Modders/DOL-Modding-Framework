@@ -113,6 +113,10 @@
 <<generalWear "neck" $args[0] $args[1] $args[2]>>
 <</nobr>><</widget>>
 
+<<widget "handswear">><<nobr>>
+<<generalWear "hands" $args[0] $args[1] $args[2]>>
+<</nobr>><</widget>>
+
 <<widget "legswear">><<nobr>>
 <<generalWear "legs" $args[0] $args[1] $args[2]>>
 <</nobr>><</widget>>
@@ -211,6 +215,10 @@
 
 <<widget "necksend">><<nobr>>
 <<generalSend $args[1] "neck" $args[0] $args[2] $args[3]>>
+<</nobr>><</widget>>
+
+<<widget "handssend">><<nobr>>
+<<generalSend $args[1] "hands" $args[0] $args[2] $args[3]>>
 <</nobr>><</widget>>
 
 <<widget "legssend">><<nobr>>
@@ -332,6 +340,10 @@
 <<generalStrip "neck">>
 <</nobr>><</widget>>
 
+<<widget "handsstrip">><<nobr>>
+<<generalStrip "hands">>
+<</nobr>><</widget>>
+
 <<widget "legsstrip">><<nobr>>
 <<generalStrip "legs">>
 <</nobr>><</widget>>
@@ -393,7 +405,21 @@
 					<<set $effectsmessage to 1>><<run $rebuy_failure.push(clone($carried[$args[0]].name))>>
 				<</if>>
 			<<elseif $clothingrebuy is 1 and $worn[$args[0]].one_piece isnot "broken" and $worn[$args[0]].shop.length gt 0>>
-				<<if $money gte Math.trunc($worn[$args[0]].cost * 1.5)>>
+				<<if $worn[$args[0]].outfitSecondary isnot undefined>>
+					<<if $args[0] is "lower">>
+						<<if $money gte Math.trunc($worn["upper"].cost * 1.5)>>
+							<<generalSend "wardrobe" "upper" $worn["upper"].index $worn["upper"].colour $worn["upper"].accessory_colour>>
+							<<set $money -= Math.trunc($worn["upper"].cost * 1.5)>>
+							<<set $effectsmessage to 1>><<run $rebuy_success.push(clone($worn["upper"].name))>>
+						<</if>>
+					<<elseif $args[0] is "under_lower">>
+						<<if $money gte Math.trunc($worn["under_upper"].cost * 1.5)>>
+							<<generalSend "wardrobe" "under_upper" $worn["under_upper"].index $worn["under_upper"].colour $worn["under_upper"].accessory_colour>>
+							<<set $money -= Math.trunc($worn["under_upper"].cost * 1.5)>>
+							<<set $effectsmessage to 1>><<run $rebuy_success.push(clone($worn["under_upper"].name))>>
+						<</if>>
+					<</if>>
+				<<elseif $money gte Math.trunc($worn[$args[0]].cost * 1.5)>>
 					<<generalSend "wardrobe" $args[0] $worn[$args[0]].index $worn[$args[0]].colour $worn[$args[0]].accessory_colour>>
 					<<set $money -= Math.trunc($worn[$args[0]].cost * 1.5)>>
 					<<set $effectsmessage to 1>><<run $rebuy_success.push(clone($worn[$args[0]].name))>>
@@ -446,6 +472,7 @@
 			<<if $worn[_outfitSecondaryRuined[0]].name is _outfitSecondaryRuined[1] and $worn[_outfitSecondaryRuined[0]].outfitPrimary isnot undefined>>
 				<<if $worn[_outfitSecondaryRuined[0]].outfitPrimary[$args[0]] is $worn[$args[0]].name>>
 					<<set $worn[_outfitSecondaryRuined[0]].outfitPrimary[$args[0]] to "broken">>
+					<<set $worn[_outfitSecondaryRuined[0]].one_piece to "broken">>
 				<</if>>
 			<</if>>
 		<</if>>
@@ -503,6 +530,10 @@
 
 <<widget "neckruined">><<nobr>>
 <<generalRuined "neck">>
+<</nobr>><</widget>>
+
+<<widget "handsruined">><<nobr>>
+<<generalRuined "hands">>
 <</nobr>><</widget>>
 
 <<widget "legsruined">><<nobr>>
@@ -670,6 +701,10 @@
 <<generalOn "neck">>
 <</nobr>><</widget>>
 
+<<widget "handson">><<nobr>>
+<<generalOn "hands">>
+<</nobr>><</widget>>
+
 <<widget "legson">><<nobr>>
 <<generalOn "legs">>
 <</nobr>><</widget>>
@@ -823,6 +858,10 @@
 <<generalSteal "neck" $args[0]>>
 <</nobr>><</widget>>
 
+<<widget "handssteal">><<nobr>>
+<<generalSteal "hands" $args[0]>>
+<</nobr>><</widget>>
+
 <<widget "legssteal">><<nobr>>
 <<generalSteal "legs" $args[0]>>
 <</nobr>><</widget>>
@@ -845,6 +884,7 @@
 <<generalUndress _undress_temp "head">>
 <<generalUndress _undress_temp "face">>
 <<generalUndress _undress_temp "neck">>
+<<generalUndress _undress_temp "hands">>
 <<generalUndress _undress_temp "legs">>
 <<generalUndress _undress_temp "feet">>
 <</nobr>><</widget>>
@@ -1021,6 +1061,10 @@
 <<generalUndress $args[0] "neck">>
 <</nobr>><</widget>>
 
+<<widget "handsundress">><<nobr>>
+<<generalUndress $args[0] "hands">>
+<</nobr>><</widget>>
+
 <<widget "legsundress">><<nobr>>
 <<generalUndress $args[0] "legs">>
 <</nobr>><</widget>>
@@ -1113,6 +1157,10 @@
 
 <<widget "storeonneck">><<nobr>>
 <<generalStoreon $args[0] "neck" $args[1]>>
+<</nobr>><</widget>>
+
+<<widget "storeonhands">><<nobr>>
+<<generalStoreon $args[0] "hands" $args[1]>>
 <</nobr>><</widget>>
 
 <<widget "storeonlegs">><<nobr>>

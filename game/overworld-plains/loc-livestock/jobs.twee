@@ -365,7 +365,10 @@ You bite into one of the apples. It's so sweet. Once started, there's no stoppin
 :: Livestock Job Save [nobr]
 <<effects>>
 
-You cover the apples with the sheet. Your stomach growls in protest.
+You cover the apples with the sheet.
+<<if $hunger gte 1000>>
+	Your stomach growls in protest.
+<</if>>
 <<set $livestock_food to 1>>
 <br><br>
 
@@ -714,7 +717,7 @@ Harper pours the liquid into your mouth. It's even sweeter than it smells, and s
 
 <<if $worn.genitals.type.includes("chastity")>>
 	<<if $penisexist is 1 and $vaginaexist is 1>>
-		The audience murmer about your hermaphroditism. "You might might be wondering," Harper continues. "If all the livestock here are blessed with both male and female genitalia. They are not. This specimen is unique."
+		The audience murmur about your hermaphroditism. "You might be wondering," Harper continues. "If all the livestock here are blessed with both male and female genitalia. They are not. This specimen is unique."
 		<br><br>
 	<</if>>
 
@@ -725,7 +728,7 @@ Harper pours the liquid into your mouth. It's even sweeter than it smells, and s
 	<br><br>
 <<else>>
 	<<if $penisexist is 1 and $vaginaexist is 1>>
-		The audience murmer about your hermaphroditism. "You might might be wondering," Harper continues. "If all the livestock here are blessed with both male and female genitalia. They are not. This specimen is unique."
+		The audience murmur about your hermaphroditism. "You might be wondering," Harper continues. "If all the livestock here are blessed with both male and female genitalia. They are not. This specimen is unique."
 		<br><br>
 	<</if>>
 
