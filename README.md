@@ -7,6 +7,8 @@ https://gitgud.io/dol-modders/dol-modding-framework
 https://github.com/DOL-Modders/DOL-Modding-Framework
 
 
+## Current Game Version: 0.2.20.2
+
 ## How to build
 
 ### Optional Prerequisites
