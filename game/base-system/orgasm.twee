@@ -136,7 +136,10 @@
 	<<if $femaleclimax isnot -1 and $orgasmdown lt 0>>
 		<<set $femaleclimax to -1>>
 	<</if>>
-	<<orgasmstat>><<set $orgasmcount += 1>><<set $orgasmdown to 3>><<set $speechcum += 1>><<set $speechorgasmcount += 1>>
+	<<orgasmstat>><<set $orgasmcount += 1>><<set $orgasmdown to 3>>
+	<<if $combat is 1>>
+		<<set $speechcum += 1>><<set $speechorgasmcount += 1>>
+	<</if>>
 	<<if $penisexist is 1 and $femaleclimax is -1 and $penissize lt 0>>
 		<<set _calculation to 0>>
 		<<if $anusstate is "penetrated" or $anusstate is "tentacle" or $anusstate is "tentacledeep">>
@@ -447,7 +450,7 @@
 		<<else>>
 			<<set $masturbation_semen += $semen_amount>>
 		<</if>>
-	<span class="gold">You've gathered <<print ($masturbation_semen).toFixed(1)>> ml of <<semenstop>></span>
+	<span class="gold">You've gathered <<print ($masturbation_semen).toFixed(1)>> ml of <<semen>>.</span>
 	<</if>>
 	<<if $semen_amount gte _temp_semen>>
 		<<set $semen_produced_stat += _temp_semen>>
@@ -465,7 +468,7 @@
 <<set _totalArousal = 0>>
 <<set _length to $trackedArousal.length>>
 <<for _ia to 0; _ia lt _length; _ia++>>
-	<<set _totalArousal += $trackedArousal[_ia] / ((_length - _ia) * 2)>>
+	<<set _totalArousal += $trackedArousal[_ia] / ((_length - _ia) * 1.5)>>
 <</for>>
 <<if $combat is 1>>
 	<<if $enemytype is "man">>
@@ -478,7 +481,7 @@
 	<<set $combatWetBoost to 0>>
 <</if>>
 
-<<set _exponential to Math.pow(0.99996,_totalArousal)>>
+<<set _exponential to Math.pow(0.99985,_totalArousal)>>
 <<if $vaginaexist is 1>>
 	<<set $vaginaWetness to Math.clamp((75 - Math.floor(_exponential * 75)) + ($vaginagoo * 6) + ($vaginasemen * 6) + ($vaginaoutsidegoo * 6) + ($vaginaoutsidesemen * 6) + $combatWetBoost, 0, 120)>>
 <</if>>
