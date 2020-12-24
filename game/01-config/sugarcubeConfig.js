@@ -6,6 +6,9 @@ State.prng.init()
 
 window.versionUpdateCheck = true;
 
+// Yo this line is extremely important for save compatibility!!
+Config.saves.id = "degrees-of-lewdity"
+
 Config.saves.onLoad = function (save) {
 	window.versionUpdateCheck = true;
 }
