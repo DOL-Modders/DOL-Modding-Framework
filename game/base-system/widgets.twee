@@ -768,7 +768,7 @@
 	<<elseif $exposed is 1>>
 		<<set _temp *= 1.1>>
 	<</if>>
-	<<set $bottomgrowthtimer += 5 * _temp>>
+	<<set $workouts++>>
 	<<set $physique += 10 * _temp>><<set $physiqueuse += _temp>>
 	<<if $combat isnot 1>>
 		<span class="gold"> You get a good workout.</span>
@@ -1566,7 +1566,7 @@
 		<<case dance_studio>>
 		<img id="location" @src="'img/misc/' + _weather_display + '/dance_studio_day.png'">
 		<<case compound>>
-		<img id="location" @src="'img/misc/' + _weather_display + '/compound_day.gif">
+		<img id="location" @src="'img/misc/' + _weather_display + '/compound_day.gif'">
 		<<case brothel>>
 		<img id="location" @src="'img/misc/' + _weather_display + '/brothel_day.png'">
 		<<case cafe>>
@@ -2379,6 +2379,7 @@ or $args[0] is "force">>
 <<widget "integritycheck">><<nobr>>
 <<if $worn.upper.name isnot "naked">>
 	<<if $worn.upper.integrity lte 0>>
+		<<set $worn.upper.type.push("broken")>>
 		<<if $args[0] isnot "no_text">>
 			<span class="lewd">Your $worn.upper.name <<upperplural>> ripped into scraps, exposing your <<breasts>>.</span>
 			<br>
@@ -2388,6 +2389,7 @@ or $args[0] is "force">>
 <</if>>
 <<if $worn.lower.name isnot "naked">>
 	<<if $worn.lower.integrity lte 0>>
+		<<set $worn.lower.type.push("broken")>>
 		<<if $args[0] isnot "no_text">>
 			<span class="lewd">Your $worn.lower.name <<lowerplural>> ripped into scraps, exposing your <<undies>>.</span>
 			<br>
@@ -2397,6 +2399,7 @@ or $args[0] is "force">>
 <</if>>
 <<if $worn.under_upper.name isnot "naked">>
 	<<if $worn.under_upper.integrity lte 0>>
+		<<set $worn.under_upper.type.push("broken")>>
 		<<if $args[0] isnot "no_text">>
 			<span class="lewd">Your $worn.under_upper.name <<underupperplural>> ripped into scraps, exposing your <<breasts>>.</span>
 			<br>
@@ -2406,6 +2409,7 @@ or $args[0] is "force">>
 <</if>>
 <<if $worn.under_lower.name isnot "naked">>
 	<<if $worn.under_lower.integrity lte 0>>
+		<<set $worn.under_lower.type.push("broken")>>
 		<<if $args[0] isnot "no_text">>
 			<span class="lewd">Your $worn.under_lower.name <<underlowerplural>> ripped into scraps, exposing your <<if $worn.genitals.name isnot "naked">>$worn.genitals.name.<<else>><<genitals>>.<</if>></span>
 			<br>
