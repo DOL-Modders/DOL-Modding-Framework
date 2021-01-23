@@ -48,7 +48,7 @@
 	You check to make sure no one is around, then slowly remove your $worn.under_upper.name. Despite being alone, doing this in a public space makes a chill run through your spine.
 	<br>
 	<</if>>
-	<<underlowerundress _temp_strip>><<underupperundress _temp_strip>>
+	<<underupperundress _temp_strip>><<underlowerundress _temp_strip>>
 <</if>>
 
 <<if $action_unclad_under_upper is 1>><<set $action_unclad_under_upper to 0>>
@@ -164,7 +164,7 @@
 
 Remove and hide your...
 <<set _stripOptions to {}>>
-<<set _stripOptions["don't remove anything"] to "none">>
+<<set _stripOptions[""] to "none">>
 
 <<if $worn.upper.cursed isnot 1 and $worn.lower.cursed isnot 1>>
 	<<if $worn.under_lower.exposed lte 0>>
