@@ -5,6 +5,7 @@
 <<set $player.sex to "f">>
 <<set $player.gender_body to "a">>
 <<set $player.ballsExist to false>>
+<<set $player.freckles to false>>
 <<set $devlevel to 12>>
 <<set $bodysize to 2>>
 <<set $breastsize to 0>>
@@ -64,7 +65,7 @@
 <<set $reducedLineHeight to false>>
 <<set $sidebarAnimations to true>>
 <<set $combatAnimations to true>>
-
+<<startingPlayerImageReset>>
 <</nobr>><</widget>>
 
 <<widget "displaySettings">><<nobr>>
@@ -77,7 +78,7 @@
 <<switch $currentSettings>>
 	<<case "quickStart">><<replace #settingsDiv>><<quickStart>><</replace>>
 	<<case "presetConfirmDetails">><<replace #settingsDiv>><<presetConfirmDetails>><</replace>>
-	<<case "characterSettings">><<replace #settingsDiv>><<characterSettings>><</replace>>
+	<<case "characterSettings">><<replace #settingsDiv>><<characterSettings>><</replace>><<startingPlayerImageUpdate>><<removeclass #startingPlayerImage "hidden">>
 	<<case "featSettings">><<replace #settingsDiv>><<featSettings>><</replace>>
 	<<case "gameSettings">><<replace #settingsDiv>><<gameSettings>><</replace>>
 	<<case "sizeLimitsSettings">><<replace #settingsDiv>><<sizeLimitsSettings>><</replace>>
@@ -216,6 +217,14 @@
 	<<initnpcgender>>
 	<<hirsuteHideCheck>>
 	<<tanned 0 "ignoreCoverage">>
+	<<if $player.freckles is "random">>
+		<<set $player.freckles to random(1, 5) == 1 ? true : false>>
+	<</if>>
+	<!-- check if specified face style is installed -->
+	<img id="testImage" class="hidden" @scr="'img/face/' + $facestyle + '/base.png'">
+	<<if $facestyle is "" or isImageOk("#testImage")>>
+		<<set $facestyle = "default">>
+	<</if>>
 	<<set _settingsExitPassage to clone($settingsExitPassage)>>
 	<<unset $settingsExitPassage>>
 	<<run State.display(_settingsExitPassage)>>
@@ -282,7 +291,14 @@
 
 <<widget "characterSettings">><<nobr>>
 	<span class="red">The Character tab can only be accessed at the beginning.</span>
-	<br><br>
+	<br>
+	<<if StartConfig.enableImages is true>>
+		<span class="gold">View a preview of the character in the side bar.</span> <label>Show Clothes <<print '<<checkbox "_showClothes" false true '+(_showClothes isnot false ? "checked" : "")+'>>'>></label> <label>Show Underwear <<print '<<checkbox "_showUnderwear" false true '+(_showUnderwear isnot false ? "checked" : "")+'>>'>></label> 
+		<br>
+		<span class="red">'Visual representation of the player character's skin colour' needs to be enabled in the general tab for skin colouring to show during normal gameplay.</span>
+		<br>
+	<</if>>
+	<br>
 
 	<<if $dev is 1>>
 		<span class="gold">Difficulty</span>
@@ -383,11 +399,16 @@
 	<span class="gold">Hair Colour</span>
 	<br>
 	<label><span class="red">Red</span> <<print '<<radiobutton "$hairselect" "red" ' + ($hairselect is "red" ? "checked" : "") + '>>'>></label> |
+	<label><span class="black">Jet Black</span> <<print '<<radiobutton "$hairselect" "jetblack" ' + ($hairselect is "jetblack" ? "checked" : "") + '>>'>></label> |
 	<label><span class="black">Black</span> <<print '<<radiobutton "$hairselect" "black" ' + ($hairselect is "black" ? "checked" : "") + '>>'>></label> |
 	<label><span class="brown">Brown</span> <<print '<<radiobutton "$hairselect" "brown" ' + ($hairselect is "brown" ? "checked" : "") + '>>'>></label> |
+	<label><span class="softbrown">Soft Brown</span> <<print '<<radiobutton "$hairselect" "softbrown" ' + ($hairselect is "softbrown" ? "checked" : "") + '>>'>></label> |
 	<label><span class="lightbrown">Light brown</span> <<print '<<radiobutton "$hairselect" "lightbrown" ' + ($hairselect is "lightbrown" ? "checked" : "") + '>>'>></label> |
+	<label><span class="burntorange">Burnt Orange</span> <<print '<<radiobutton "$hairselect" "burntorange" ' + ($hairselect is "burntorange" ? "checked" : "") + '>>'>></label> |
 	<label><span class="gold">Blond</span> <<print '<<radiobutton "$hairselect" "blond" ' + ($hairselect is "blond" ? "checked" : "") + '>>'>></label> |
+	<label><span class="softblond">Soft Blond</span> <<print '<<radiobutton "$hairselect" "softblond" ' + ($hairselect is "softblond" ? "checked" : "") + '>>'>></label> |
 	<label><span class="platinum">Platinum blond</span> <<print '<<radiobutton "$hairselect" "platinumblond" ' + ($hairselect is "platinumblond" ? "checked" : "") + '>>'>></label> |
+	<label><span class="ashy">Ashy blond</span> <<print '<<radiobutton "$hairselect" "ashyblond" ' + ($hairselect is "ashyblond" ? "checked" : "") + '>>'>></label> |
 	<label><span class="strawberry">Strawberry blond</span> <<print '<<radiobutton "$hairselect" "strawberryblond" ' + ($hairselect is "strawberryblond" ? "checked" : "") + '>>'>></label> |
 	<label><span class="tangerine">Ginger</span> <<print '<<radiobutton "$hairselect" "ginger" ' + ($hairselect is "ginger" ? "checked" : "") + '>>'>></label>
 	<br><br>
@@ -397,6 +418,13 @@
 	<label>Ear <<print '<<radiobutton "$hairlength" 0 ' + ($hairlength is 0 ? "checked" : "") + '>>'>></label> |
 	<label>Neck <<print '<<radiobutton "$hairlength" 200 ' + ($hairlength is 200 ? "checked" : "") + '>>'>></label> |
 	<label>Chest <<print '<<radiobutton "$hairlength" 400 ' + ($hairlength is 400 ? "checked" : "") + '>>'>></label>
+	<br><br>
+
+	<span class="gold">Freckles</span>
+	<br>
+	<label>Yes <<print '<<radiobutton "$player.freckles" true ' + ($player.freckles is true ? "checked" : "") + '>>'>></label> |
+	<label>No <<print '<<radiobutton "$player.freckles" false ' + ($player.freckles is false ? "checked" : "") + '>>'>></label> |
+	<label>Random <<print '<<radiobutton "$player.freckles" "random" ' + ($player.freckles is "random" ? "checked" : "") + '>>'>></label> |
 	<br><br>
 
 	<span class="gold">Skin Colour</span>
@@ -618,7 +646,16 @@
 			<br><br>
 		
 			<span class="gold">Beast Toggles</span>
-			<br>
+			<br><span style="font-size: x-small; margin-left: 5px;">
+			<<run beastTogglesCheck()>>
+			<<button `(_anyBeastOn ? "Disable" : "Enable") + " all beast toggles"`>>
+				<<script>>
+					let val = SugarCube.State.temporary.anyBeastOn ? 't' : 'f';
+					SugarCube.State.temporary.beastVars.forEach(x => SugarCube.State.variables[x] = val);
+					SugarCube.Engine.show();
+				<</script>>
+			<</button>>
+			</span><br>
 			<label><div class="settingsToggle">
 			<<print '<<checkbox "$bestialitydisable" "t" "f" ' + ($bestialitydisable is "f" ? "checked" : "") + '>>'>> Enable bestiality
 			</div></label>
@@ -627,6 +664,12 @@
 			</div></label>
 			<label><div class="settingsToggle">
 			<<print '<<checkbox "$parasitedisable" "t" "f" ' + ($parasitedisable is "f" ? "checked" : "") + '>>'>> Enable parasites
+			</div></label>
+			<label><div class="settingsToggle">
+			<<print '<<checkbox "$analpregdisable" "t" "f" ' + ($analpregdisable is "f" ? "checked" : "") + '>>'>> Enable anal parasitic pregnancy
+			</div></label>
+			<label><div class="settingsToggle">
+			<<print '<<checkbox "$tentacledisable" "t" "f" ' + ($tentacledisable is "f" ? "checked" : "") + '>>'>> Enable tentacles
 			</div></label>
 			<label><div class="settingsToggle">
 			<<print '<<checkbox "$slimedisable" "t" "f" ' + ($slimedisable is "f" ? "checked" : "") + '>>'>> Enable slimes
@@ -650,10 +693,10 @@
 	<span class="gold">Togglable Features</span>
 	<br>
 	<label><div class="settingsToggle">
-	<<print '<<checkbox "$tentacledisable" "t" "f" ' + ($tentacledisable is "f" ? "checked" : "") + '>>'>> Enable tentacles
+	<<print '<<checkbox "$analdisable" "t" "f" ' + ($analdisable is "f" ? "checked" : "") + '>>'>> Enable anal
 	</div></label>
 	<label><div class="settingsToggle">
-	<<print '<<checkbox "$analdisable" "t" "f" ' + ($analdisable is "f" ? "checked" : "") + '>>'>> Enable anal
+	<<print '<<checkbox "$pbdisable" "t" "f" ' + ($pbdisable is "f" ? "checked" : "") + '>>'>> Enable pubic hair growth
 	</div></label>
 	<label><div class="settingsToggle">
 	<<print '<<checkbox "$transformdisable" "t" "f" ' + ($transformdisable is "f" ? "checked" : "") + '>>'>> Enable transformations
@@ -662,19 +705,27 @@
 	<<print '<<checkbox "$hirsutedisable" "t" "f" ' + ($hirsutedisable is "f" ? "checked" : "") + '>>'>> Extra hirsute/hairy wolf transformation
 	</div></label>
 	<label><div class="settingsToggle">
-	<<print '<<checkbox "$pbdisable" "t" "f" ' + ($pbdisable is "f" ? "checked" : "") + '>>'>> Enable pubic hair growth
-	</div></label>
-	<label><div class="settingsToggle">
 	<<print '<<checkbox "$breastfeedingdisable" "t" "f" ' + ($breastfeedingdisable is "f" ? "checked" : "") + '>>'>> Enable lactation
-	</div></label>
-	<label><div class="settingsToggle">
-	<<print '<<checkbox "$analpregdisable" "t" "f" ' + ($analpregdisable is "f" ? "checked" : "") + '>>'>> Enable anal parasitic pregnancy
 	</div></label>
 	<label><div class="settingsToggle">
 	<<print '<<checkbox "$watersportsdisable" "t" "f" ' + ($watersportsdisable is "f" ? "checked" : "") + '>>'>> Enable watersports
 	</div></label>
 	<label><div class="settingsToggle">
 	<<print '<<checkbox "$bodywritingdisable" "t" "f" ' + ($bodywritingdisable is "f" ? "checked" : "") + '>>'>> Enable body-writing and forced tattoos
+	</div></label>
+	<div style="clear:both;">/*Keep at end of toggles*/</div>
+
+	<span class="gold">Advanced Visual Settings</span>
+	<br>
+	<label><div class="settingsToggle">
+	<<print '<<checkbox "$blinkingdisable" "t" "f" ' + ($blinkingdisable is "t" ? "" : "checked") + '>>'>> Animate eyes blinking
+	</div></label>
+	<label><div class="settingsToggle">
+	<<print '<<checkbox "$halfcloseddisable" "t" "f" ' + ($halfcloseddisable is "t" ? "" : "checked") + '>>'>> Enable half-closed eyes graphics
+	</div></label>
+	<label><div class="settingsToggle">
+	Face style <<textbox "$facestyle" $facestyle>>
+	<br><span style="font-size: x-small; color: grey;">Modify only if you installed any face styles other than default</span>
 	</div></label>
 	<div style="clear:both;">/*Keep at end of toggles*/</div>
 <</nobr>><</widget>>
