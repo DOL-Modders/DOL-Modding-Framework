@@ -185,7 +185,7 @@ Before the rear <<wolf_cave_plural>> even arrive the <<beasttype>> leaps over th
 <br>
 
 <<else>>
-Before the last wolf even arrives, the <<beasttype>> leaps over the carcass and charges down the hill, straight at the Black Wolf.
+Before the last of the pack arrive, the <<beasttype>> leaps over the carcass and charges down the hill, straight at the Black Wolf.
 <br><br>
 <<endevent>><<npc "Black Wolf">>
 
@@ -660,6 +660,7 @@ You run with the pack into the forest. There must be easier prey.
 <<violence 1>>
 <<neutral 1>>
 <<molested>>
+	<<beastCombatInit>>
 
 <<set $enemytrust -= 40>><<set $enemyanger += 40>><<set $enemyhealthmax to 400>><<set $enemyhealth to 400>><<set $enemyarousalmax to 1000>>
 
@@ -752,6 +753,7 @@ You run with the pack into the forest. There must be easier prey.
 <<violence 1>>
 <<neutral 1>>
 <<molested>>
+	<<beastCombatInit>>
 
 <<set $NPCList[0].stance to "top">>
 <</if>>

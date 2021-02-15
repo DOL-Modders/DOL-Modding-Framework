@@ -529,7 +529,11 @@
 			<<set $stress += ($args[0] * 10)>>
 		<</if>>
 		<<combattrauma _negargs>>
-		<<set $enemyanger += 5 * $args[0]>>
+		<<if $args[1] is "demanding">>
+			<<set $enemyanger += 20 * $args[0]>>
+		<<else>>
+			<<set $enemyanger += 5 * $args[0]>>
+		<</if>>
 		<<set $submissive -= 1>>
 		<<set $enemytrust -= 2>>
 	<</if>>
@@ -1523,7 +1527,7 @@
 <</nobr>><</widget>>
 
 <<widget "beastescape">><<nobr>>
-<<trauma 12>><<set $pain += 40>><<set $stress += 400>><<set $worn.lower.integrity -= 20>><<set $worn.upper.integrity -= 20>><<set $worn.under_lower.integrity -= 20>><<set $worn.under_upper.integrity -= 20>><<bruise full>><<gstress>><<gtrauma>>
+<<trauma 12>><<pain 6>><<stress 12>><<set $worn.lower.integrity -= 20>><<set $worn.upper.integrity -= 20>><<set $worn.under_lower.integrity -= 20>><<set $worn.under_upper.integrity -= 20>><<bruise full>><<gpain>><<gstress>><<gtrauma>>
 <</nobr>><</widget>>
 
 <<widget "weatherdisplay">><<nobr>>
@@ -3736,7 +3740,10 @@ __Map__<br>
 			State.temporary.checkRequirements = function (stat) {
 				let statOverrides =  State.temporary.npcOverrides[stat];
 
-				return !statOverrides?.hasOwnProperty("requirements") || statOverrides?.requirements;
+				if(statOverrides)
+					return !statOverrides.hasOwnProperty("requirements") || statOverrides.requirements;
+				else
+					return true;
 			};
 
 			State.temporary.importantNpcStats = ["love", "lust", "dom", "trauma", "rage"];
@@ -3797,8 +3804,8 @@ __Map__<br>
 			}
 		<</script>>
 	<</silently>>
-	<<if _npcData?.init is 1>>
-		<<if _npcOverrides?.important>>
+	<<if _npcData and _npcData.init is 1>>
+		<<if _npcOverrides and _npcOverrides.important>>
 			<div class="social-box">
 				<div class="social-top-line">
 					<span class="social-name">
@@ -4934,5 +4941,17 @@ __Map__<br>
 	<<set $historytrait to 1>>
 <<else>>
 	<<set $historytrait to 0>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "beast_next">><<nobr>>
+<<if $monster is 1>>
+	<<if $beastgender is "m">>
+		<<print "$combatTrain.beastTypes[0]" + "boy">>
+	<<else>>
+		<<print "$combatTrain.beastTypes[0]" + "girl">>
+	<</if>>
+<<else>>
+	<<print $combatTrain.beastTypes[0]>>
 <</if>>
 <</nobr>><</widget>>

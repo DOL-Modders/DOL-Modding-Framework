@@ -179,9 +179,10 @@
 		<<if $cat gte 6>>
 			<<link [[Hiss|School Toilets Hiss]]>><</link>><<cat>>
 			<br>
+		<</if>>
 		<<link [[Fight|School Toilets Cat]]>><<set $molestationstart to 1>><</link>>
 		<br>
-	<</if>>
+	
 <</if>>
 
 <</nobr>><</widget>>
@@ -689,7 +690,7 @@ Other students ignore what is happening, or watch in amusement.
 		<br><br>
 
 		You leave before anyone notices your deepening blush.
-		<<garousal>><<gstress>><<arousal 6>><<stress 6>>
+		<<garousal>><<gstress>><<arousal 600>><<stress 6>>
 		<br><br>
 
 		<<endevent>>

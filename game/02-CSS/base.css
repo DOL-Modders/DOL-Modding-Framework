@@ -394,6 +394,18 @@ mouse.tooltip:hover span {
 	border: 1px solid #666;
 }
 
+.settingsToggleBig {
+	float: left;
+	width: 100%;
+	min-width: 275px;
+	padding: 3px;
+	margin: 10px 0px;
+}
+
+.v-spacer {
+    margin: 1em 0;
+}
+
 #divbowl {
 		position: relative;
 		display: inline-block;
@@ -1638,6 +1650,10 @@ div[id|="numberslider-body"] input::-ms-thumb {
 	width: 33px;
 }
 
+.description {
+    font-size: 0.9em;
+    color: darkgrey;
+}
 .small-description {
 	font-size: small;
 	color: darkgrey;
@@ -3428,12 +3444,6 @@ label {
 	max-width: 32.4%;
 }
 
-@media(max-width: 869px) {
-	#npc-relations .social-box {
-		max-width: 100%;
-	}
-}
-
 #secondary-npcs,
 #farm-status {
 	font-size: 85%;
@@ -3443,7 +3453,7 @@ label {
 #farm-status .social-box {
 	min-width: 220px;
 	border-color: #888;
-	flex: 1 1 24.3%
+	flex: 0 1 24.3%
 }
 
 #secondary-npcs .social-box .social-top-line
@@ -3494,6 +3504,17 @@ label {
 
 #global-recognition .social-box:not(:last-child) .social-description {
 	align-self: flex-start;
+}
+
+@media(max-width: 869px) {
+	#npc-relations .social-box {
+		max-width: 100%;
+	}
+
+	#secondary-npcs .social-box,
+	#farm-status .social-box {
+		flex: 1 1 24.3%
+	}
 }
 
 /* Eye blinking animation, 100 seconds loop to make 1% equal to 1s; eyes are closed for 0.05s */

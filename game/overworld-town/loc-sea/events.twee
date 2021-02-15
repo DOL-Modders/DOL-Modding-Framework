@@ -6,6 +6,7 @@
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
+	<<beastCombatInit>>
 	<<beastTrainGenerate>>
 	<<set $water to 1>><<set $claws to 0>>
 	<<if $daystate isnot "night" and $location is "beach">>
@@ -320,6 +321,7 @@
 		<<set $voretentacles to 0>>
 	<</if>>
 	<<resetLastOptions>>
+	<<getCombatDefaultsType>>
 <</if>>
 <<if $tentacledisable is "f" and $hallucinations gte 1 and $enemytype is "tentacles">>
 	<<voreeffects>><<effectstentacles>>
@@ -470,6 +472,7 @@ The creature loses interest in you, and returns to the depths. <<tearful>> you s
 	<<consensual>>
 	<<set $consensual to 1>>
 	<<neutral 1>>
+	<<beastCombatInit>>
 
 	<<beastTrainGenerate>>
 

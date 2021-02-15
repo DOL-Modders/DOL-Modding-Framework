@@ -167,10 +167,9 @@ Passage Line Height: <<link "1.75">><<unset $reducedLineHeight>><<removeclass "#
 <<set _saveDetails = getSaveDetails()>>
 <!--Extra checks incase the above fails for some reason-->
 <<if _saveDetails is undefined>>
-	<<set _saveDetails to Save.get()>>
-<</if>>
-<<if _saveDetails.autosave is undefined or _saveDetails.slots is undefined>>
-	<<set _saveDetails to Save.get()>>
+	<<set _saveDetails to returnSaveDetails()>>
+<<elseif _saveDetails.autosave is undefined or _saveDetails.slots is undefined>>
+	<<set _saveDetails to returnSaveDetails()>>
 <</if>>
 <<set _currentTime to new Date().getTime()>>
 <div id="savesListContainer">
@@ -297,7 +296,6 @@ Passage Line Height: <<link "1.75">><<unset $reducedLineHeight>><<removeclass "#
 
 <<widget "saveWarning">><<nobr>>
 <div class="saveBorder">
-	<<set _saveDetails = getSaveDetails()>>
 	<<if _saveDetails.slots[$args[0]] isnot null>>
 		<<if _saveDetails.slots[$args[0]].metadata isnot undefined>>
 			<<if _saveDetails.slots[$args[0]].metadata.saveId isnot $saveId>>
@@ -358,7 +356,6 @@ Passage Line Height: <<link "1.75">><<unset $reducedLineHeight>><<removeclass "#
 
 <<widget "loadWarning">><<nobr>>
 <div class="saveBorder">
-	<<set _saveDetails = getSaveDetails()>>
 	<h4 class="red">Load slot <<print ($args[0] is "auto"? "auto": $args[0] + 1)>></h4>
 	<<if $args[0] is "auto">>
 		<<print _saveDetails.autosave.title>>
@@ -380,9 +377,7 @@ Passage Line Height: <<link "1.75">><<unset $reducedLineHeight>><<removeclass "#
 
 <<widget "deleteWarning">><<nobr>>
 <div class="saveBorder">
-	<<set _saveDetails = getSaveDetails()>>
 	<h4 class="red">Delete Save in slot <<print ($args[0] is "auto"? "auto": $args[0] + 1)>></h4>
-	<br><br>
 	<<if $args[0] is "auto">>
 		<<print _saveDetails.autosave.title>>
 		<br>

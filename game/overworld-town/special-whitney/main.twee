@@ -947,7 +947,7 @@ Whitney laughs. "Nah, I'm not gonna be caught helping a thief. See you later slu
 <br><br>
 
 <<endevent>>
-<<beastNEWinit is dog>>
+<<beastNEWinit 1 dog>>
 You feel the <<beasttype>> prod your behind.
 <br><br>
 
@@ -1079,6 +1079,7 @@ You're too battered and bruised to resist.
 <<violence 1>>
 <<neutral 1>>
 <<molested>>
+	<<beastCombatInit>>
 
 <<set $enemytrust -= 40>><<set $position to "wall">><<set $leftarm to "bound">><<set $rightarm to "bound">><<set $head to "bound">>
 
@@ -1340,7 +1341,7 @@ The audience applaud. Whitney gasps and climbs off you.
 
 <<clotheson>>
 
-<<tearful>> you climb to your feet. Whitney takes your hand. "Let's leave before these perverts get any funny ideas." <<He>> drags you from the pub.
+<<tearful>> you climb to your feet. Whitney takes your hand. "Let's leave before these perverts get any funny ideas." <<He>> drags you from the pub.<<takeHandholdingVirginity "Whitney" "romantic">>
 <br><br>
 
 <<He>> pulls a cigarette out of <<his>> shirt pocket once outside. "And they say I'm not romantic," <<he>> says. "Fuck off home or wherever, I've got things to do." <<He>> walks away from you.

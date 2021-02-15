@@ -161,9 +161,13 @@ You are in the clearing outside the wolf cave. A stream runs by.
 
 <<set $outside to 0>><<set $location to "wolf_cave">><<effects>>
 <<pass 30>>
+<<npc "Black Wolf">>
 The Black Wolf runs through the forest, all the way back to the cave. <<bHe>> dumps you at the back and gives a warning growl before turning away.
+<<if $monster is 1>>
+	"Stay. You belong to pack."
+<</if>>
 <br><br>
-<<link [[Next|Wolf Cave]]>><<clotheson>><</link>>
+<<link [[Next|Wolf Cave]]>><<clotheson>><<endevent>><</link>>
 <br>
 
 :: Wolf Cave Unbind [nobr]
@@ -284,6 +288,7 @@ You sit on the edge and try to lower yourself down, but the rock gives way and y
 	<<consensual>>
 	<<set $consensual to 1>>
 	<<neutral 1>>
+	<<beastCombatInit>>
 	You shift your body to make things easier for the horny <<beasttype>>.
 	<<deviancy1>><<set $enemytrust -= 20>>
 	<<if $wolfpackharmony gte 1>>
@@ -295,6 +300,7 @@ You sit on the edge and try to lower yourself down, but the rock gives way and y
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
+	<<beastCombatInit>>
 	<<set $enemytrust -= 40>>
 	<<if $wolfpackharmony gte 1>>
 		<<set $rescue to 1>>
@@ -417,6 +423,7 @@ You wash in the stream. The water is cold but clean.
 	<<consensual>>
 	<<set $consensual to 1>>
 	<<neutral 1>>
+	<<beastCombatInit>>
 	The <<beasttype>> becomes more bold.
 	<<deviancy1>><<set $enemytrust -= 20>>
 	<<if $wolfpackharmony gte 1>>
@@ -428,6 +435,7 @@ You wash in the stream. The water is cold but clean.
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
+	<<beastCombatInit>>
 	<<set $enemytrust -= 40>>
 	<<if $wolfpackharmony gte 1>>
 		<<set $rescue to 1>>

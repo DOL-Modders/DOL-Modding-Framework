@@ -199,6 +199,7 @@
 <</if>>
 <<if _upgrades.skulduggery gt 0>>
 	<<set $skulduggery to _upgrades.skulduggery / _details.skulduggery.cost * 100>>
+	<<set $skulduggeryday to _upgrades.skulduggery / _details.skulduggery.cost * 100>>
 <</if>>
 <<if _upgrades.dancing gt 0>>
 	<<set $danceskill to _upgrades.dancing / _details.dancing.cost * 100>>
@@ -1169,6 +1170,14 @@
 			filter: ["All", "Discoveries"],
 			hint: "Hint: To the edge of the world."
 		},
+		"Wet and Ruined":{
+			title: "Wet and Ruined",
+			desc: "Discovered the ruined castle.",
+			difficulty: 2,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Lost in the mire."
+		},
 		"Head of the Pack":{
 			title: "Head of the Pack",
 			desc: "Be the leader of wolves.",
@@ -1361,14 +1370,14 @@
 			filter: ["All", "Discoveries"],
 			hint: "Hint: Hidden deep."
 		},
-		/*"Buried Treasure":{
+		"Buried Treasure":{
 			title: "Buried Treasure",
 			desc: "Followed the treasure map, and made a discovery.",
 			difficulty: 3,
 			series: "beach cave",
 			filter: ["All", "Discoveries"],
 			hint: "Hint: Follow the map."
-		},*/
+		},
 		"Abnormal Mollusc":{
 			title: "Abnormal Mollusc",
 			desc: "Escaped the giant slug.",
@@ -1434,6 +1443,24 @@
 			series: "",
 			filter: ["All", "Discoveries"],
 			hint: "Hint: Find gold. Steal it later.",
+			softLockable: true,
+		},
+		"Not Like the Movies":{
+			title: "Not Like the Movies",
+			desc: "Gained knowledge of quicksand.",
+			difficulty: 2,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Sunken moor wisdom.",
+			softLockable: true,
+		},
+		"Slippery":{
+			title: "Slippery",
+			desc: "Escaped Remy's goons.",
+			difficulty: 1,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Escape Remy's goons.",
 			softLockable: true,
 		},
 		"Max Those Shots":{

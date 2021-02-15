@@ -4,8 +4,9 @@
 <<consensual>>
 <<set $consensual to 1>>
 <<neutral 1>>
+	<<beastCombatInit>>
 
-You shift your body to make things easier for the horny wolf.
+You shift your body to make things easier for the horny <<beasttype>>.
 <<deviancy1>><<set $enemytrust -= 20>>
 	<<if $wolfpackharmony gte 1>>
 	<<set $rescue to 1>>
@@ -17,6 +18,7 @@ You shift your body to make things easier for the horny wolf.
 <<violence 1>>
 <<neutral 1>>
 <<molested>>
+	<<beastCombatInit>>
 
 <<set $enemytrust -= 40>>
 <<if $wolfpackharmony gte 1>>
@@ -59,7 +61,7 @@ You shift your body to make things easier for the horny wolf.
 You cry for help.
 
 <<if $wolfpackharmony gte 1>>
-The other <<beastsplural growl at the aggressor, who slinks away in response.
+The other <<beastsplural>> growl at the aggressor, who slinks away in response.
 <<lharmony>>
 <br><br>
 
@@ -132,31 +134,43 @@ The <<beasttype>> yawns and lies down.
 
 <<if $phase is 0>>
 
-You stroke the low ranking <<print $combatTrain.beastTypes[0]>>, and its ears perk up. The more dominant <<print $combatTrain.beastTypes[1]>> growls, but doesn't press it.
+You stroke the low ranking <<beasttype 0>>, and its ears perk up. The more dominant <<beasttype 1>> growls, but doesn't press it.
 <<gharmony>><<lferocity>><<deviancy1>>
+
+<<endevent>>
+<<loadNPC 0 wolf_rank_1>>
+<<clearNPC wolf_rank_1>>
+<<clearNPC wolf_rank_2>>
 
 <<link [[Next|Wolf Cave Fight]]>><<set $sexstart to 1>><</link>>
 <br>
 
 <<elseif $phase is 1>>
 
-You stroke the high ranking <<print $combatTrain.beastTypes[1]>>. The less dominant <<print $combatTrain.beastTypes[0]>> walks away with its tail down.
+You stroke the high ranking <<beasttype 1>>. The less dominant <<beasttype 0>> walks away with its tail down.
 <<lharmony>><<gferocity>><<deviancy1>>
+<<endevent>>
+<<loadNPC 0 wolf_rank_2>>
+<<clearNPC wolf_rank_1>>
+<<clearNPC wolf_rank_2>>
 
 <<link [[Next|Wolf Cave Fight]]>><<set $sexstart to 1>><</link>>
 <br>
 
 <<elseif $phase is 2>>
 
-You stroke both of them. The dominant <<print $combatTrain.beastTypes[1]>> seems less pleased, but doesn't cause a fuss. It insists it takes you first.
+You stroke both of them. The dominant <<beasttype 1>> seems less pleased, but doesn't cause a fuss. It insists it takes you first.
 <<gharmony>><<gferocity>><<deviancy2>>
+
+<<clearNPC wolf_rank_1>>
+<<clearNPC wolf_rank_2>>
 
 <<link [[Next|Wolf Cave Fight Duo]]>><<set $sexstart to 1>><</link>>
 <br>
 
 <<else>>
 
-You turn away from them both. The more dominant <<print $combatTrain.beastTypes[1]>> growls, but doesn't press it.
+You turn away from them both. The more dominant <<beasttype 1>> growls, but doesn't press it.
 <br><br>
 <<endevent>>
 
@@ -182,7 +196,6 @@ You ignore the <<beastsplural>>. The wounded <<beasttype>> whimpers, and the oth
 <br><br>
 
 <</if>>
-<<endevent>>
 
 <<destinationwolfcave>>
 
@@ -233,6 +246,7 @@ You look the Black Wolf right in the eyes and bare your teeth. <<bHis>> anger is
 <<consensual>>
 <<set $consensual to 1>>
 <<neutral 1>>
+	<<beastCombatInit>>
 
 <<if $phase is 0>>
 You reach beneath the <<beasttype>> and take it in your hand.
@@ -249,6 +263,7 @@ You lean beneath the <<beasttype>>.
 <<violence 1>>
 <<neutral 1>>
 <<molested>>
+	<<beastCombatInit>>
 
 <<blackwolfhealth>><<set $enemytrust -= 40>>
 
@@ -342,6 +357,7 @@ The Black Wolf stops bothering you, but continues to bite and growl at the other
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
+	<<beastCombatInit>>
 
 	<<blackwolfhealth>><<set $enemyanger += 200>><<set $enemytrust -= 40>>
 
@@ -466,6 +482,7 @@ You play fight with the young <<beasttype>>. <<bHe>> bites your arm and tries to
 	<<consensual>>
 	<<set $consensual to 1>>
 	<<neutral 1>>
+	<<beastCombatInit>>
 
 	You adopt a mating posture and present yourself to the <<beasttype>>.
 	<<deviancy2>><<set $enemytrust -= 20>>
@@ -556,6 +573,7 @@ You play fight with the young <<beasttype>>. <<bHe>> bites your arm and tries to
 	<<consensual>>
 	<<set $consensual to 1>>
 	<<neutral 1>>
+	<<beastCombatInit>>
 
 	<<beastTrainGenerate>>
 
@@ -570,6 +588,7 @@ You play fight with the young <<beasttype>>. <<bHe>> bites your arm and tries to
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
+	<<beastCombatInit>>
 
 	<<set $enemytrust -= 40>>
 	<<if $wolfpackharmony gte 1>>

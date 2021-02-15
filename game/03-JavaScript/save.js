@@ -320,7 +320,7 @@ window.validateValue = function (keys, value) {
 			valid = true;
 		}
 	}
-	if (keyArray.includes("decimals")) {
+	if (keyArray.includes("decimals") && value != undefined) {
 		if (value.toFixed(keys.decimals) != value) {
 			valid = false;
 		}
@@ -335,7 +335,7 @@ window.validateValue = function (keys, value) {
 			valid = true;
 		}
 	}
-	if (keyArray.includes("strings")) {
+	if (keyArray.includes("strings") && value != undefined) {
 		if (keys.strings.includes(value)) {
 			valid = true;
 		}
@@ -489,6 +489,9 @@ window.settingsObjects = function (type) {
 				watersportsdisable: { boolLetter: true },
 				spiderdisable: { boolLetter: true },
 				bodywritingdisable: { boolLetter: true },
+				parasitedisable: { boolLetter: true},
+				slugdisable: { boolLetter: true},
+				waspdisable: {boolLetter: true},
 				asphyxiaLvl: { min: 0, max: 3, decimals: 0 },
 				breastsizemax: { min: 0, max: 13, decimals: 0 },
 				bottomsizemax: { min: 0, max: 9, decimals: 0 },

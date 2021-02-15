@@ -59,15 +59,13 @@
 	<img class="layer-base anim-idle-2f" @src="_img.basenoarms" @style="'filter: '+_filters.body">
 	<img class="layer-basehead anim-idle-2f" @src="_img.basehead" @style="'filter: '+_filters.body">
 	
-	<<if $spray gt 0>>
-		<<for _i to 1; _i lte $spraymax; _i++>>
-			<<if $spray gte _i>>
-				<img @id="'spray'+_i" src="img/ui/pepperspray.png">
-			<<else>>
-				<img @id="'spray'+_i" src="img/ui/emptyspray.png">
-			<</if>>
-		<</for>>
-	<</if>>
+	<<for _i to 1; _i lte $spraymax; _i++>>
+		<<if $spray gte _i>>
+			<img @id="'spray'+_i" src="img/ui/pepperspray.png">
+		<<else>>
+			<img @id="'spray'+_i" src="img/ui/emptyspray.png">
+		<</if>>
+	<</for>>
 
 	<<if $skinColor.tanImgEnabled is "t">>
 		<<if $skinColor.tanValues[0] isnot $skinColor.tanValues[2]>>
@@ -509,7 +507,7 @@
 	<<else>>
 		<<set _sclera = "sclera">>
 	<</if>>
-	<<if $halfcloseddisable isnot "t" and ($arousal gte 8000 or $orgasmdown gte 1) and _trauma is "" and $pain lt 60 and _diagram is 0>>
+	<<if $halfcloseddisable isnot "t" and ($arousal gte 8000 or $orgasmdown gte 1) and _trauma is "" and $pain lt 60 and _diagram is 0 and $eyelidTEST is true>>
 		<<set _half = "_halfclosed">>
 	<<else>>
 		<<set _half = "">>
@@ -2133,7 +2131,7 @@
 		<<if $worn.hands.mainImage isnot 0>>
 			<img @class="_class" @src="'img/clothes/hands/' + $worn.hands.variable + '/' + 'full.png'" @style="_style">
 		<</if>>
-		<<if $worn.hands.leftImage is 1>>
+		<<if $worn.hands.leftImage is 1 and $leftarm isnot "bound" and $leftarm isnot "grappled">>
 			<<set _leftImage to "left">>
 			<<if _coverLeft is true>>
 				<<run _leftImage += " cover">>
@@ -2143,7 +2141,7 @@
 				<img @class="_classAcc" @src="'img/clothes/hands/' + $worn.hands.variable + '/' + _leftImage + '_acc.png'" @style="_styleAcc">
 			<</if>>
 		<</if>>
-		<<if $worn.hands.rightImage is 1>>
+		<<if $worn.hands.rightImage is 1 and $rightarm isnot "bound" and $rightarm isnot "grappled">>
 			<<set _rightImage to "right">>
 			<<if _coverRight is true>>
 				<<run _rightImage += " cover">>

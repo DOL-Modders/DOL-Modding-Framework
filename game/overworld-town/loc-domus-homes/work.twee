@@ -1012,6 +1012,7 @@ You run from the premises, closing the gate behind you.
 <<violence 1>>
 <<neutral 1>>
 <<molested>>
+	<<beastCombatInit>>
 
 	<<if $phase is 1>>
 	<<set $NPCList[0].stance to "top">>
@@ -1095,7 +1096,7 @@ No one answered the door.
 <<elseif $alarm is 1>><<set $rescued += 1>>
 	<<if $rapeavoid is 0 and $NPCList[0].stance is "top">><<famebestiality 1>>
 
-	<<generate1>><<person1>> "I'm coming!" you hear a <<person>> shout as <<he>> runs down the road. <<He>> leans against the gate and stares wide-eyed at you.
+	<<generate2>><<person2>> "I'm coming!" you hear a <<person>> shout as <<he>> runs down the road. <<He>> leans against the gate and stares wide-eyed at you.
 	<br><br>
 
 		<<if $submissive lte 850>>
@@ -1107,9 +1108,9 @@ No one answered the door.
 		<</if>>
 	<br><br>
 
-	<<He>> breaks free from <<his>> stupor and grabs the <<beasttype>> by the collar. <<He>> hauls it away from you and shoos it back to <<bhis>> kennel. "Bad <<beasttype>>!" <<He>> yells.
+	<<He>> breaks free from <<his>> stupor and grabs the <<beasttype 0>> by the collar. <<He>> hauls it away from you and shoos it back to <<bhis 0>> kennel. "Bad <<beasttype 0>>!" <<He>> yells.
 	<<if $monster is 1>>
-		"You're the one that wasn't home, idiot," <<bhe>> barks back, sitting.
+		"You're the one that wasn't home, idiot," <<bhe 0>> barks back, sitting.
 	<</if>>
 	<<tearful>> you struggle to your feet.
 
@@ -1125,11 +1126,11 @@ No one answered the door.
 
 	<<elseif $exposed gte 1>><<fameexhibitionism 1>>
 
-	<<generate1>><<person1>> "I'm coming!" you hear a <<person>> shout as <<he>> runs down the road. <<He>> leans against the gate and stares wide-eyed at you. You feel <<his>> eyes bore into your <<lewdness>> as <<he>> opens the gate.
+	<<generate2>><<person2>> "I'm coming!" you hear a <<person>> shout as <<he>> runs down the road. <<He>> leans against the gate and stares wide-eyed at you. You feel <<his>> eyes bore into your <<lewdness>> as <<he>> opens the gate.
 	<br><br>
 
 		<<if $submissive lte 850>>
-		"Stop staring idiot, get this <<beasttype>> off me," you say.
+		"Stop staring idiot, get this <<beasttype 0>> off me," you say.
 		<<elseif $submissive gte 1150>>
 		"H-help me," you say.
 		<<else>>
@@ -1137,9 +1138,9 @@ No one answered the door.
 		<</if>>
 	<br><br>
 
-	<<He>> breaks free from <<his>> stupor and grabs the <<beasttype>> by the collar. <<He>> hauls it away from you and shoos it back to its kennel. "Bad <<beasttype>>!" <<He>> yells.
+	<<He>> breaks free from <<his>> stupor and grabs the <<beasttype>> by the collar. <<He>> hauls it away from you and shoos it back to its kennel. "Bad <<beasttype 0>>!" <<He>> yells.
 	<<if $monster is 1>>
-		"Stupid nosy little pest, I was having so much fun," <<bhe>> barks back, sitting.
+		"Stupid nosy little pest, I was having so much fun," <<bhe 0>> barks back, sitting.
 	<</if>>
 	<<tearful>> you struggle to your feet.
 
@@ -1155,11 +1156,11 @@ No one answered the door.
 
 	<<else>>
 
-	<<generate1>><<person1>> "I'm coming!" you hear a <<person>> shout as <<he>> runs down the road. <<He>> leans against the gate and stares wide-eyed at you.
+	<<generate2>><<person2>> "I'm coming!" you hear a <<person>> shout as <<he>> runs down the road. <<He>> leans against the gate and stares wide-eyed at you.
 	<br><br>
 
 		<<if $submissive lte 850>>
-		"Stop staring idiot, get this <<beasttype>> off me," you say.
+		"Stop staring idiot, get this <<beasttype 0>> off me," you say.
 		<<elseif $submissive gte 1150>>
 		"H-help me," you say.
 		<<else>>
@@ -1167,7 +1168,7 @@ No one answered the door.
 		<</if>>
 	<br><br>
 
-	<<He>> breaks free from <<his>> stupor and grabs the <<beasttype>> by the collar. <<He>> hauls it away from you and shoos it back to its kennel. <<tearful>> you struggle to your feet. "Are you OK?" <<he>> enquires.
+	<<He>> breaks free from <<his>> stupor and grabs the <<beasttype 0>> by the collar. <<He>> hauls it away from you and shoos it back to its kennel. <<tearful>> you struggle to your feet. "Are you OK?" <<he>> enquires.
 	<br><br>
 
 		<<if $submissive lte 850>>
@@ -1293,7 +1294,7 @@ The chain breaks free from its mooring, and the <<beasttype>> leaps towards you.
 <br>
 
 <<else>>
-
+<<endevent>>
 You turn back to the door.
 <br><br>
 
@@ -1305,6 +1306,7 @@ You turn back to the door.
 <br>
 
 <</if>>
+
 
 :: Domus House Ignore [nobr]
 <<set $outside to 0>><<set $location to "town">><<effects>>
@@ -1755,6 +1757,7 @@ You've made £30.
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
+	<<beastCombatInit>>
 	<<set $position to "wall">>
 	<<set $walltype to "pillory">>
 	<<set $head to "grappled">>

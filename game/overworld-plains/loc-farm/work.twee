@@ -1123,6 +1123,7 @@ You bend over a bale of hay, and pull the <<farm_text horse>> until it stands ov
 	<<else>>
 		<<beastNEWinit 1 horse $farm_work.horse.gender $farm_work.horse.genitals beast>>
 	<</if>>
+	<<beastCombatInit>>
 
 	<<set $NPCList[_n].stance to "top">>
 	<<if $farm_work.horse.genitals is "penis">>
@@ -1577,7 +1578,7 @@ You sneak up to the shed, and push the door open.
 		<</if>>
 	<</if>>
 
-	<<His>> face, arms and legs are much darker than parts protected from <<his>> days in the sun.<<garousal>><<arousal 6>>
+	<<His>> face, arms and legs are much darker than parts protected from <<his>> days in the sun.<<garousal>><<arousal 600>>
 	<br><br>
 
 	A draft blows through the gap in the door. Alex opens <<his>> eyes, but you're already gone. <<He>> shuts the door, none the wiser.
