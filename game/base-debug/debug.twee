@@ -581,11 +581,15 @@ These still require Fertilise
 <br>
 <<link [[Gang Rape Me w/ Audience->The Pod]]>><<set $molestationstart to 1>><</link>>
 <br>
-<<link [[Sex Me|Beach Day Encounter Sex]]>><<generate1>><<person1>><<set $sexstart to 1>><</link>>
+<<link [["Sex Me [M]"|Beach Day Encounter Sex]]>><<generateNPC 1 a m m>><<person1>><<set $sexstart to 1>><</link>>
+<br>
+<<link [["Sex Me [F]"|Beach Day Encounter Sex]]>><<generateNPC 1 a f f>><<person1>><<set $sexstart to 1>><</link>>
 <br>
 <<link [[Gang Sex Me w/ Audience->Maths Lesson Gang Bang]]>><<set $sexstart to 1>><</link>>
 <br>
 <<link [[DP Test]]>><<set $molestationstart to 1>><</link>>
+<br>
+<<link [[Choke Suffocate Test|Beach Day Encounter Sex]]>><<generate1>><<person1>><<set $sexstart to 1>><<set $oxygen to 0>><<set $suffocating to 3>><<set $NPCList[0].righthand to "throat">><<set $neckuse to "hand">><<set $askedtochoke to 1>><</link>>
 <br>
 <<link [[Swarm|Sea Eels]]>><<set $molestationstart to 1>><</link>>
 <br>
@@ -629,7 +633,7 @@ These still require Fertilise
 <br>
 <<link [[Avery Date|Domus Street]]>><<set $averydate to 1>><<set $time to 1200>><</link>>
 <br>
-<<link [[Black Wolf Forced|Forest Wolf Molestation]]>><<set $molestationstart to 1>><</link>>
+<<link [[Black Wolf Forced|Forest Wolf Molestation]]>><<beastNNPCinit>><<set $molestationstart to 1>><</link>>
 <br>
 <<link [[Police Pillory Start|Police Pillory Start]]>><<set $crime to 5000>><<generate1>><<person1>><</link>>
 <br>
@@ -654,6 +658,8 @@ These still require Fertilise
 <<link [[Full winter|$passage]]>><<set $days to 92>><<set $yeardays to 92>><<set $monthday to 1>><<set $month to "december">><</link>>
 <br>
 <<link [[Christmas|$passage]]>><<set $days to 110>><<set $yeardays to 110>><<set $monthday to 18>><<set $month to "december">><</link>>
+<br>
+<<link [[Blood moon|$passage]]>><<set $monthday to 31>><<set $daystate to "night">><<set $hour to 21>><<set $time to 1260>><<set $moonstate to "evening">><</link>>
 <br>
 <<link [[Test|$passage]]>><<set $month to "october">><</link>>
 <br>
@@ -701,6 +707,9 @@ These still require Fertilise
 <<link [[Museum|Museum]]>><</link>>
 <br>
 <<link [[Beach Cave|Beach Cave]]>><<set $cave to 0>><<beach_cave_init>><</link>>
+<br>
+<<link [[Stall Rent|Stall Rent]]>><<set $time to 360>><<set $daystate to "dawn">><</link>>
+<br>
 <br><br>
 Turn beast into: <<link [[Creature|$passage]]>><<set _xy to $enemyno-1>><<set $NPCList[_xy].type to "creature">><</link>>
 <br>

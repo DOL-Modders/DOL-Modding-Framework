@@ -50,6 +50,21 @@
 		<</if>>
 	<</for>>
 	<<set $feats.allSaves.points to _points>>
+
+	<!--Store a record of which clothes the player has unlocked-->
+	<<if _recalledFeats.specialClothes isnot undefined>>
+		<<set $feats.allSaves.specialClothes to _recalledFeats.specialClothes>>
+	<<else>>
+		<<set $feats.allSaves.specialClothes to {}>>
+	<</if>>
+	<<if $specialClothes>>
+		<<for $_label, $_value range $specialClothes>>
+			<<if $_value is "unlocked">>
+				<<set $feats.allSaves.specialClothes[$_label] to $_value>>
+			<</if>>
+		<</for>>
+	<</if>>
+
 	<<if _passageCheck is "Start">>
 	<<else>>
 		<<set localStorage.setItem("dolFeats",JSON.stringify($feats.allSaves))>>
@@ -69,8 +84,6 @@
 
 	<<set _tattoosFeats to _keys.count("A Living Canvas") + _keys.count("Billboard")>>
 
-	<<set _hermaphroditeFeats to _keys.count("Being a Boy") + _keys.count("Being a Girl")>>
-
 	<<set $featsBoosts to {
 		upgrades:{
 			money:0,
@@ -86,7 +99,7 @@
 			tattoos:0,
 			defaultMoves: 0,
 			randomClothing:0,
-			hermaphrodite:0,
+			specialClothing:0,
 		},
 		upgradeDetails:{
 			money:{cost:5, limit: _moneyFeatsLimit, minCount: 1, count:_moneyFeats, exclusive:""},
@@ -102,7 +115,7 @@
 			tattoos:{cost:5, limit: 25, minCount: 2, count:_tattoosFeats, exclusive:""},
 			defaultMoves:{cost:5, limit: 25, minCount: 1, count:_keys.count("A New Life"), exclusive:""},
 			randomClothing:{cost:1, limit: 20, minCount: 0, count:0, exclusive:""},
-			hermaphrodite:{cost:25, limit: 25, minCount: 3, count:_hermaphroditeFeats, exclusive:""},
+			specialClothing:{cost:40, limit: 40, minCount: 1, count:_keys.count("Curious Attire"), exclusive:""},
 		},
 		missing:{
 			money:"Missing money feat",
@@ -118,7 +131,23 @@
 			tattoos:"Missing 'Billboard' and 'A Living Canvas' feats",
 			defaultMoves:"Missing a '?????' feat",
 			randomClothing:"",
-			hermaphrodite:"",
+			specialClothing:"Missing a '?????' feat",
+		},
+		name:{
+			money:"Money",
+			grades:"School grades",
+			skulduggery:"Skulduggery grade",
+			dancing:"Dancing grade",
+			swimming:"Swimming grade",
+			seduction:"Seduction grade",
+			purity:"Daily purity",
+			impurity:"Daily impurity",
+			newLife:"New Life",
+			aNewBestFriend:"A new best friend",
+			tattoos:"Tattoos",
+			defaultMoves:"Default Moves",
+			randomClothing:"Random Clothing",
+			specialClothing:"Special Clothing",
 		},
 		pointsUsed: 0,
 		clothingGender:"Either",
@@ -130,12 +159,7 @@
 			4:{bodypart:"Random",tattoo:"Random",pen:"Tattoo"},
 			5:{bodypart:"Random",tattoo:"Random",pen:"Tattoo"},
 		},
-		futaBalls: true,
 	}>>
-	<<if $debug is 1>>
-		<<set $featsBoosts.upgradeDetails.hermaphrodite.minCount to 0>>
-		<<set $featsBoosts.missing.hermaphrodite to "Skilled with both sets of gear">>
-	<</if>>
 <</if>>
 <</nobr>><</widget>>
 
@@ -175,6 +199,7 @@
 <</if>>
 <<if _upgrades.skulduggery gt 0>>
 	<<set $skulduggery to _upgrades.skulduggery / _details.skulduggery.cost * 100>>
+	<<set $skulduggeryday to _upgrades.skulduggery / _details.skulduggery.cost * 100>>
 <</if>>
 <<if _upgrades.dancing gt 0>>
 	<<set $danceskill to _upgrades.dancing / _details.dancing.cost * 100>>
@@ -361,19 +386,12 @@
 <<if _upgrades.defaultMoves gt 0>>
 	<<set $maxDefaultActionSets to 2 + _upgrades.defaultMoves / _details.defaultMoves.cost>>
 <</if>>
-<<if _upgrades.hermaphrodite gt 0>>
-	<<if $player.gender is "f">>
-		<<set $penisuse to 0>>
-		<<set $penisstate to 0>>
-		<<set $penisexist to 1>>
-	<<elseif $player.gender is "m">>
-		<<set $vaginause to 0>>
-		<<set $vaginastate to 0>>
-		<<set $vaginaexist to 1>>
-	<</if>>
-	<<set $player.gender to "h">>
-	<<set $player.sex to "h">>
-	<<set $player.ballsExist to clone($featsBoosts.futaBalls)>>
+<<if _upgrades.specialClothing gt 0>>
+	<<set _unlocked to $feats.allSaves.specialClothes>>
+	<<specialClothesSetup>>
+	<<for $_label, $_value range _unlocked>>
+		<<set $specialClothes[$_label] to $_value>>
+	<</for>>
 <</if>>
 <</nobr>><</widget>>
 
@@ -504,6 +522,7 @@
 				<<earnFeat "Animal Tender">>
 			<</if>>
 		<</if>>
+		<<specialClothesUpdate>>
 	<</if>>
 	<<if $money gte 100000>>
 		<<earnFeat "Pocket Change">>
@@ -518,7 +537,7 @@
 		<<earnFeat "Millionaire">>
 	<</if>>
 	<<if $goooutsidecount + $semenoutsidecount gte 100
-	and ($anusgoo + $anussemen gte 5 or $analdisable is true)
+	and ($anusgoo + $anussemen gte 5 or $analdisable is "t")
 	and ($vaginagoo + $vaginasemen gte 5 or $vaginaexist is 0)
 	and $mouthgoo + $mouthsemen gte 5>>
 		<<earnFeat "Fully Covered">>
@@ -743,7 +762,7 @@
 			filter: ["All", "Stats"],
 		},
 		"May I have this Dance?":{
-			title: "May I have this Dance?",
+			title: "May I Have This Dance?",
 			desc: "No one can resist your moves.",
 			difficulty: 1,
 			series: "",
@@ -982,42 +1001,42 @@
 			filter: ["All", "Social"],
 		},
 		"Neko":{
-			title: "Neko",
+			title: "Purrfect",
 			desc: "Purring for attention.",
 			difficulty: 1,
 			series: "",
 			filter: ["All", "Transformation"],
 		},
 		"Wolf":{
-			title: "Wolf",
+			title: "Howl At The Moon",
 			desc: "Looking to be part of a pack.",
 			difficulty: 1,
 			series: "",
 			filter: ["All", "Transformation"],
 		},
 		"Cattle":{
-			title: "Cattle",
+			title: "Mess With The Bull...",
 			desc: "Ready for milking.",
 			difficulty: 1,
 			series: "",
 			filter: ["All", "Transformation"],
 		},
 		"Angel":{
-			title: "Angel",
+			title: "Walk Like An Angel",
 			desc: "Try not to fall.",
 			difficulty: 1,
 			series: "",
 			filter: ["All", "Transformation"],
 		},
 		"Fallen Angel":{
-			title: "Fallen Angel",
+			title: "Falling, Falling, Falling...",
 			desc: "Cruel defilement.",
 			difficulty: 1,
 			series: "",
 			filter: ["All", "Transformation"],
 		},
 		"Demon":{
-			title: "Demon",
+			title: "Devilish Looks",
 			desc: "A cause of great lewdity.",
 			difficulty: 1,
 			series: "",
@@ -1150,6 +1169,14 @@
 			series: "",
 			filter: ["All", "Discoveries"],
 			hint: "Hint: To the edge of the world."
+		},
+		"Wet and Ruined":{
+			title: "Wet and Ruined",
+			desc: "Discovered the ruined castle.",
+			difficulty: 2,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Lost in the mire."
 		},
 		"Head of the Pack":{
 			title: "Head of the Pack",
@@ -1343,14 +1370,14 @@
 			filter: ["All", "Discoveries"],
 			hint: "Hint: Hidden deep."
 		},
-		/*"Buried Treasure":{
+		"Buried Treasure":{
 			title: "Buried Treasure",
 			desc: "Followed the treasure map, and made a discovery.",
 			difficulty: 3,
 			series: "beach cave",
 			filter: ["All", "Discoveries"],
 			hint: "Hint: Follow the map."
-		},*/
+		},
 		"Abnormal Mollusc":{
 			title: "Abnormal Mollusc",
 			desc: "Escaped the giant slug.",
@@ -1390,6 +1417,51 @@
 			series: "",
 			filter: ["All", "Discoveries"],
 			hint: "Hint: Bring wintry cheer to the orphans."
+		},
+		"In Red Light":{
+			title: "In Red Light",
+			desc: "Harvested wild blood lemons.",
+			difficulty: 2,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Strange fruit grows in strange light.",
+			softLockable: true,
+		},
+		"Oh Bother":{
+			title: "Oh Bother",
+			desc: "Harvested wild honeycomb.",
+			difficulty: 1,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Sweet and sticky.",
+			softLockable: true,
+		},
+		"Employee Benefits":{
+			title: "Employee Benefits",
+			desc: "Discovered a shipment of gold by day, and took it by night.",
+			difficulty: 3,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Find gold. Steal it later.",
+			softLockable: true,
+		},
+		"Not Like the Movies":{
+			title: "Not Like the Movies",
+			desc: "Gained knowledge of quicksand.",
+			difficulty: 2,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Sunken moor wisdom.",
+			softLockable: true,
+		},
+		"Slippery":{
+			title: "Slippery",
+			desc: "Escaped Remy's goons.",
+			difficulty: 1,
+			series: "",
+			filter: ["All", "Discoveries"],
+			hint: "Hint: Escape Remy's goons.",
+			softLockable: true,
 		},
 		"Max Those Shots":{
 			title: "Max Those Shots",
@@ -1432,6 +1504,15 @@
 			series: "",
 			filter: ["All", "Special"],
 			hint: "Hint: Rake it in."
+		},
+		"Curious Attire":{
+			title: "Curious Attire",
+			desc: "Unlocked all the special clothing items.",
+			difficulty: 2,
+			series: "",
+			filter: ["All", "Special"],
+			hint: "Hint: Able to wear them all.",
+			softLockable: true,
 		},
 		"My Collection of Feats":{
 			title: "My Collection of Feats",

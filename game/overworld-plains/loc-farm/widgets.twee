@@ -77,7 +77,7 @@ You've pushed yourself too much. You pass out.
 <br><br>
 <<set $danger to random(1, 10000)>>
 <<if $danger gte (9900 - $allure)>>
-	<<link [[Next|Farm Road Passout]]>><<pass 60>><<set $stress -= 2000>><</link>>
+	<<link [[Next|Moor Abduction Wake]]>><<pass 60>><<set $stress -= 2000>><<set $moor to 50>><</link>>
 	<br>
 <<else>>
 	<<ambulance>>
@@ -185,7 +185,8 @@ You've pushed yourself too much. You pass out.
 <</nobr>><</widget>>
 
 <<widget "fox_gen">><<nobr>>
-<<if $monsterchance gte 1 and $hallucinations gte 1 or $monsterchance gte 1 and $monsterhallucinations is "f">>
+<!-- Modified for monster people -->
+<<if ($monsterchance gte 1 and $hallucinations gte 1) or ($monsterchance gte 1 and $monsterhallucinations is "f") or ($bestialitydisable is "t")>>
 	<<if $malechance lt random(1, 100)>>
 		<<set $fox to "female">>
 	<<else>>
@@ -329,22 +330,23 @@ You've pushed yourself too much. You pass out.
 	<<set $farm_work.pig to {}>>
 	<<set $farm_work.horse to {}>>
 	<<set $farm_work.cattle to {}>>
-	<<if $monsterchance gte random(1, 100)>>
+	<!-- Modified for monster people -->
+	<<if ($monsterchance gte random(1, 100)) or ($bestialitydisable is "t")>>
 		<<set $farm_work.horse.monster_roll to true>>
 	<<else>>
 		<<set $farm_work.horse.monster_roll to false>>
 	<</if>>
-	<<if $monsterchance gte random(1, 100)>>
+	<<if ($monsterchance gte random(1, 100)) or ($bestialitydisable is "t")>>
 		<<set $farm_work.pig.monster_roll to true>>
 	<<else>>
 		<<set $farm_work.pig.monster_roll to false>>
 	<</if>>
-	<<if $monsterchance gte random(1, 100)>>
+	<<if ($monsterchance gte random(1, 100)) or ($bestialitydisable is "t")>>
 		<<set $farm_work.dog.monster_roll to true>>
 	<<else>>
 		<<set $farm_work.dog.monster_roll to false>>
 	<</if>>
-	<<if $monsterchance gte random(1, 100)>>
+	<<if ($monsterchance gte random(1, 100)) or ($bestialitydisable is "t")>>
 		<<set $farm_work.cattle.monster_roll to true>>
 	<<else>>
 		<<set $farm_work.cattle.monster_roll to false>>
@@ -715,7 +717,7 @@ You've pushed yourself too much. You pass out.
 		Some of the horses lie on the grass, worn out for the day.
 		<br>
 	<</if>>
-<<elseif $deviancy gte 35 and $bestialitydisable is "f" and $farm_work.horses_satisfied lt 6 and $farm_work.horses_out lt 2>>
+<<elseif $deviancy gte 35 and $farm_work.horses_satisfied lt 6 and $farm_work.horses_out lt 2>> <!-- Modified for Beast People -->
 	<<if $farm_work.horse.monster is true>>
 		The centaur seem agitated. They need "special" attention.
 		<br>
@@ -845,7 +847,8 @@ You've pushed yourself too much. You pass out.
 		<<link [[Herd the horses to their stable (0:20)|Farm Horses In]]>><<farm_count 20>><<set $farm_work.horses_out to 2>><<pass 20>><</link>>
 	<</if>>
 	<br>
-<<elseif $deviancy gte 35 and $bestialitydisable is "f" and $farm_work.horses_satisfied lt 6 and $farm_work.horses_out lt 2>>
+<!-- Modified for Beast People -->
+<<elseif $deviancy gte 35 and $farm_work.horses_satisfied lt 6 and $farm_work.horses_out lt 2>>
 	<<if $farm_work.horse.monster is true>>
 		<<link [[Approach a centaur|Farm Horses Lewd]]>><</link>>
 	<<else>>
@@ -871,6 +874,11 @@ You've pushed yourself too much. You pass out.
 <<elseif $farm_work.cattle_out lt 2 and _farm_work_time gte 36>>
 	<<link [[Herd the cattle into their barn (0:20)|Farm Cattle In]]>><<farm_count 20>><<pass 20>><<set $farm_work.cattle_out to 2>><</link>>
 	<br>
+<<elseif $farm.milking isnot undefined>>
+	<<if $farm.milking.dayMilking is true>>
+		<<link [[Enter the barn|Farm Cattle Milk]]>><</link>>
+		<br>
+	<</if>>
 <</if>>
 <<if $farm_work.dogs_panic gte 1>>
 	<<link [[Calm the dogs (0:20)|Farm Dogs Calm]]>><<farm_count 20>><<pass 20>><</link>><<tendingdifficulty 1 700>>
@@ -881,49 +889,57 @@ You've pushed yourself too much. You pass out.
 <</if>>
 
 
-<<if $farm_work.alex is "relax">>
+<<if $farm_work.alex is "relax" and ($exposed lt 2 or $exhibitionism gte 75)>>
 	<<link [[Join Alex (0:20)|Farm Rest]]>><<farm_count 20>><<trauma -2>><<stress -2>><<npcincr Alex love 1>><<set $phase to 1>><<pass 20>><</link>><<glove>><<ltrauma>><<lstress>>
 	<br>
 <</if>>
 <<if $farm_stage gte 6 and $farm_work.tending lte 24>>
 	<<if $farm_work.alex is "tending">>
-		<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
-		<br>
+		<<if ($exposed lt 2 or $exhibitionism gte 75)>>
+			<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
+			<br>
+		<</if>>
 	<<else>>
 		<<link [[Tend the crops (0:20)|Farm Tending]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
 		<br>
 	<</if>>
 <<elseif $farm_stage gte 5 and $farm_work.tending lte 19>>
 	<<if $farm_work.alex is "tending">>
-		<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
-		<br>
+		<<if ($exposed lt 2 or $exhibitionism gte 75)>>
+			<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
+			<br>
+		<</if>>
 	<<else>>
 		<<link [[Tend the crops (0:20)|Farm Tending]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
 		<br>
 	<</if>>
 <<elseif $farm_stage gte 4 and $farm_work.tending lte 12>>
 	<<if $farm_work.alex is "tending">>
-		<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
-		<br>
+		<<if ($exposed lt 2 or $exhibitionism gte 75)>>
+			<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
+			<br>
+		<</if>>
 	<<else>>
 		<<link [[Tend the crops (0:20)|Farm Tending]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
 		<br>
 	<</if>>
 <<elseif ($farm_stage is 3 or $farm_stage is 2) and $farm_work.tending lte 6>>
 	<<if $farm_work.alex is "tending">>
-		<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
-		<br>
+		<<if ($exposed lt 2 or $exhibitionism gte 75)>>
+			<<link [[Help Alex tend the crops (0:20)|Farm Tending Alex]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
+			<br>
+		<</if>>
 	<<else>>
 		<<link [[Tend the crops (0:20)|Farm Tending]]>><<farm_count 20>><<pass 20>><<tending 2>><<tiredness 2>><<physique 2>><<set $farm_work.tending += 1>><</link>><<gtiredness>><<gtending>>
 		<br>
 	<</if>>
 <</if>>
-<<if $farm_stage isnot 6 and $farm_work.alex is "clearing">>
+<<if $farm_stage isnot 6 and $farm_work.alex is "clearing" and ($exposed lt 2 or $exhibitionism gte 75)>>
 	<<link [[Help Alex clear a field (0:20)|Farm Clearing]]>><<farm_count 20>><<pass 20>><<tiredness 2>><<physique 2>><<set $farm.clearing -= 1>><</link>><<gtiredness>>
 	<br>
 <</if>>
 
-<<if $farm_work.alex isnot "relax">>
+<<if $farm_work.alex isnot "relax" or $exposed gte 0>>
 	<<link [[Rest near the stables (0:15)|Farm Stables Rest]]>><<pass 15>><<stress -2>><</link>><<lstress>>
 <</if>>
 <br>
@@ -966,6 +982,24 @@ You've pushed yourself too much. You pass out.
 <<set $farm.beasts.dogs to 0>>
 <<set $farm_naked_alex to 1>>
 <<set $farm.clearing to 100>>
+
+<<farm_update>>
+<</nobr>><</widget>>
+
+<<widget "farm_update">><<nobr>>
+<<if $farm isnot undefined>>
+    <<if $farm.milking is undefined>>
+        <<set $farm.milking to {
+            caught: false,
+            alexNightEvent: false,
+            catchChance: 0,
+            dayMilking: false,
+        }>>
+    <</if>>
+    <<if $farm.milking.catchChance is NaN>>
+        <<set $farm.milking.catchChance to 0>>
+    <</if>>
+<</if>>
 <</nobr>><</widget>>
 
 <<widget "farm_pigs">><<nobr>>
@@ -1073,28 +1107,26 @@ You've pushed yourself too much. You pass out.
 <</if>>
 <<set $danger to random(1, 10000)>>
 <<if $danger gte (9900 - $allure)>>
-	<<if $bestialitydisable is "f">>
-		You finish up, and walk toward the gate while cleaning the brush of hair. You hear hooves approach behind you. The <<farm_text horse>> gives chase.
-		<br><br>
+<!-- Modified for monster people -->
+	You finish up, and walk toward the gate while cleaning the brush of hair. You hear hooves approach behind you. The <<farm_text horse>> gives chase.
+	<br><br>
 
-		<<if $farm_work.horse.monster is true>>
-			"I'm not finished," <<farm_he horse>> says. "Get back here."
-		<<else>>
-			It neighs at you, as if angry.
-		<</if>>
-		<br><br>
-
-		<<link [[Run|Farm Horses Brush Run]]>><</link>><<athleticsdifficulty 1 1100>>
-		<br>
-		<<link [[Wait|Farm Horses Brush Wait]]>><<farm_horses -1>><<stress 6>><</link>><<gstress>><<lrespect>>
-		<br>
+	<<if $farm_work.horse.monster is true>>
+		"I'm not finished," <<farm_he horse>> says. "Get back here."
 	<<else>>
-		The <<farm_text horse>> nips your shoulder when you stop, seeming to want more.<<gpain>><<gstress>><<pain 4>><<stress 6>>
-		<br><br>
-
-		<<link [[Next|Farm Work]]>><</link>>
-		<br>
+		It neighs at you, as if angry.
 	<</if>>
+	<br><br>
+
+	<<link [[Run|Farm Horses Brush Run]]>><</link>><<athleticsdifficulty 1 1100>>
+	<br>
+	<<link [[Wait|Farm Horses Brush Wait]]>><<farm_horses -1>><<stress 6>><</link>><<gstress>><<lrespect>>
+	<br>
+	<!-- The <<farm_text horse>> nips your shoulder when you stop, seeming to want more.<<gpain>><<gstress>><<pain 4>><<stress 6>> -->
+	<!-- <br><br> -->
+
+	<!-- <<link [[Next|Farm Work]]>><</link>> -->
+	<!-- <br> -->
 <<else>>
 	You finish up, and clean the brush of hair.
 	<br><br>
@@ -1117,7 +1149,13 @@ You've pushed yourself too much. You pass out.
 <<if $hour is 21 and $farm_end is undefined>>
 	<<set $farm_end to 1>>
 	<<npc Alex>><<person1>>
-	Alex enters the barn, wiping the sweat off <<his>> forehead as <<he>> approaches you. "Done for another day," <<he>> says, smiling.
+	<<if $exposed gt 0 and $season is "winter">>
+		Alex enters the barn, wiping the sweat off <<his>> forehead as <<he>> approaches you. "Done for another day," <<he>> says, blushing, "it's getting rather cold, you might want to wear something warmer". <<glust>><<npcincr Alex lust 1>>
+	<<elseif $exposed gt 0>>
+		Alex enters the barn, wiping the sweat off <<his>> forehead as <<he>> approaches you. "Done for another day," <<he>> says, blushing, "it'll be getting colder, you might want to wear a little more". <<glust>><<npcincr Alex lust 1>>
+	<<else>>
+		Alex enters the barn, wiping the sweat off <<his>> forehead as <<he>> approaches you. "Done for another day," <<he>> says, smiling.
+	<</if>>
 	<<if $farm_count gte 1>>
 		<<set $money += $farm.wage>>
 		"Here's a little extra." <<He>> hands you <span class="gold">£<<print $farm.wage / 100>></span>.
@@ -1125,7 +1163,7 @@ You've pushed yourself too much. You pass out.
 	<br><br>
 	"I'll close up," <<he>> says as you walk outside. "Have a safe journey."
 	<br><br>
-	<<link [[Next|Farmland]]>><<endevent>><</link>>
+	
 <<elseif $farm_work.cattle_need gte 1>>
 	<<link [[Milk them with the machine (0:20)|Farm Cattle Milk Machine]]>><<pass 20>><<farm_count 20>><<tending 2>>
 		<<if $farm_work.cattle_need gte 6>>
@@ -1137,23 +1175,36 @@ You've pushed yourself too much. You pass out.
 		<</if>>
 	<</link>><<gtending>>
 	<br>
-
-	<<if $bestialitydisable is "f">>
-		A <<farm_text cattle>> gives you a strained moo.
-		<br>
-		<<link [[Milk by hand (Up to 0:30, depending on skill)|Farm Cattle Milk Hand]]>><<farm_yield 1>><<set $cattle_milked += 1>><<set $farm_work.cattle_milked += 1>><<tending 1>><<farm_cattle 1>><</link>><<deviant1>><<gfarm>><<gtending>><<grespect>>
-		<br>
-		<<if $deviancy gte 55>>
-			<<link [[Milk with your mouth (0:03)|Farm Cattle Milk Mouth]]>><<set $cattle_milked += 1>><<set $farm_work.cattle_milked += 1>><<tending 1>><<farm_count 3>><</link>><<deviant4>><<gtending>>
-			<<if $farm_work.cattle.genitals is "penis" and $player.virginity.oral is true>>
-				| <span class="red">This action will take your oral virginity.</span>
-			<</if>>
-			<br>
+<!-- Modified for monster people -->
+	
+	A <<farm_text cattle>> gives you a strained moo.
+	<br>
+	<<link [[Milk by hand (Up to 0:30, depending on skill)|Farm Cattle Milk Hand]]>><<farm_yield 1>><<set $cattle_milked += 1>><<set $farm_work.cattle_milked += 1>><<tending 1>><<farm_cattle 1>><</link>><<deviant1>><<gfarm>><<gtending>><<grespect>>
+	<br>
+	<<if $deviancy gte 55>>
+		<<link [[Milk with your mouth (0:03)|Farm Cattle Milk Mouth]]>><<set $cattle_milked += 1>><<set $farm_work.cattle_milked += 1>><<tending 1>><<farm_count 3>><</link>><<deviant4>><<gtending>>
+		<<if $farm_work.cattle.genitals is "penis" and $player.virginity.oral is true>>
+			| <span class="red">This action will take your oral virginity.</span>
 		<</if>>
+		<br>
+	<</if>>
+	
+<<elseif $deviancy gte 15 and $farm.milking.dayMilking is true>>
+	<<if $breastfeedingdisable is "f" and $milk_amount gte 1>>
+		<<link [[Milk yourself (0:30)|Farm Barn Breasts]]>><<pass 30>><</link>><<deviant2>>
+		<br>
+	<</if>>
+	<<if $penisexist is 1 and $semen_amount gte 1 and !$worn.genitals.type.includes("chastity")>>
+		<<link [[Milk your penis (0:30)|Farm Barn Penis]]>><<pass 30>><</link>><<deviant2>>
+		<br>
 	<</if>>
 <</if>>
-<br>
-<<link [[Leave|Farm Work]]>><</link>>
+<<if $hour is 21 and $farm_end is undefined>>
+	<<link [[Next|Farmland]]>><<endevent>><</link>>
+<<else>>
+	<<link [[Leave|Farm Work]]>><<endevent>><</link>>
+<</if>>
+	
 <br>
 <</nobr>><</widget>>
 
@@ -1333,7 +1384,7 @@ You've pushed yourself too much. You pass out.
 			<<link [[Next|Farm Work]]>><</link>>
 			<br>
 		<<case 2>>
-			The hear the <<farm_text_many cattle>> moo in terror. <span class="pink">Something's spooked them.</span><<gaggro>><<farm_aggro 5>>
+			You hear the <<farm_text_many cattle>> moo in terror. <span class="pink">Something's spooked them.</span><<gaggro>><<farm_aggro 5>>
 			<br><br>
 
 			<<set $farm_work.cattle_panic to 1>>
@@ -1842,5 +1893,12 @@ You've pushed yourself too much. You pass out.
 	<<combatimg>>
 	<br>
 	<</timed>>
+<</if>>
+
+<</nobr>><</widget>>
+
+<<widget "farmCatchChance">><<nobr>>
+<<if $args[0] gt 0 or $args[0] lt 0>>
+	<<set $farm.milking.catchChance to Math.clamp(parseFloat($farm.milking.catchChance) + parseFloat($args[0]),0,100).toFixed(3)>>
 <</if>>
 <</nobr>><</widget>>

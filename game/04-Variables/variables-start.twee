@@ -90,14 +90,15 @@
 <<set $bullytimeroutside to 0>>
 <<set $bullyevent to 0>>
 <<set $bullyeventoutside to 0>>
+<<set $bullygate to 0>>
 <<set $buy to 0>>
 <<set $masturbationorgasm to 0>>
 <<set $malechance to 50>>
 <<set $malevictimchance to 50>>
 <<set $homochance to 4>>
-<<set $beastmalechance to 50>>
+<<set $beastmalechance to 80>>
 <<set $monsterhallucinations to "t">>
-<<set $monsterchance to 20>>
+<<set $monsterchance to 50>>
 <<set $deviancy to 0>>
 <<set $baileydefeated to 0>>
 <<set $baileydefeatedlewd to 0>>
@@ -154,6 +155,7 @@
 <<set $cattle_milked to 0>>
 <<set $masseur_stat to 0>>
 <<set $machine_stat to 0>>
+<<set $wild_plant_stat to 0>>
 <<set $season to "autumn">>
 
 <<set $orgasmtrait to 0>>
@@ -164,6 +166,7 @@
 <<set $tentacletrait to 0>>
 <<set $voretrait to 0>>
 <<set $milkdranktrait to 0>>
+<<set $choketrait to 0>>
 
 <<set $physicalTransform to 0>>
 <<set $specialTransform to 0>>
@@ -223,7 +226,7 @@
 <<set $genitalsensitivity to 1>>
 <<set $penissize to 2>>
 <<set $penissizemax to 4>>
-<<set $penissizemin to 0>>
+<<set $penissizemin to -1>>
 <<set $penisgrowthtimer to 700>>
 <<set $ballssize to 2>>
 <<set $ballssizemax to 4>>
@@ -334,6 +337,7 @@
 <<set $milk_drank_stat to 0>>
 <<set $gloryholestat to 0>>
 <<set $parasite_known to []>>
+<<set $chokeorgasm to 0>>
 
 <<set $danceaction to 0>>
 <<set $danceactiondefault to 0>>
@@ -648,6 +652,7 @@
 
 <<set $oxygenmax to 1200>>
 <<set $oxygen to 1200>>
+<<set $suffocating to 0>>
 <<set $hallucinogen to 0>>
 <<set $antiquemoney to 0>>
 <<set $antiquemoneyhistory to 0>>
@@ -696,6 +701,7 @@
 /*long hair related*/
 <<set $o_long_and_beautiful to 0>>
 <<set $hy_sibling to 0>>
+<<set $hy_parent to 0>>
 <<set $long_hair_meet_day to 99999>>
 <<set $misbehaviour_day to 99999>>
 
@@ -724,3 +730,26 @@
 <</if>>
 
 <<setupTransformationPiecesObject>>
+
+<<if $facestyle is undefined>>
+	<<set $facestyle to "default">>
+<</if>>
+
+<<if $makeup is undefined>>
+	<<set $makeup = {}>>
+	<<set $makeup.owned = {}>>
+	<<set $makeup.owned.lipstick = []>>
+	<<set $makeup.owned.eyeshadow = []>>
+	<<set $makeup.owned.eyelenses = []>>
+	<<set $makeup.owned.hairdye = []>>
+	<<set $makeup.owned.mascara = []>>
+	<<set $makeup.lipstick = 0>>
+	<<set $makeup.eyeshadow = 0>>
+	<<set $makeup.eyelenses = 0>>
+	<<set $makeup.mascara = 0>>
+	<<set $makeup.pbcolour = 0>>
+	<<set $makeup.browscolour = 0>>
+	<<set $makeup.concealer = 0>>
+<</if>>
+
+<<set $prepareSaveDetails to true>>

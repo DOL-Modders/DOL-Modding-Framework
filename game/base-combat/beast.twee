@@ -141,7 +141,6 @@
 <<set $rng to random(1, 100)>>
 
 <<if $NPCList[_n].penis is "vaginaimminent" and !$worn.genitals.type.includes("chastity")>>
-	<<set $vaginaactiondefault to "take">>
 	<<set _pain to $vaginalPain>>
 	<<if $player.virginity.vaginal isnot true>>
 		<<if $NPCList[_n].penissize gte 5>>
@@ -308,7 +307,6 @@
 <<set $rng to random(1, 100)>>
 
 <<if $NPCList[_n].penis is "anusimminent" and $worn.genitals.anal_shield isnot 1>>
-	<<set $anusactiondefault to "take">>
 	<<set _pain to $analPain>>
 	<<if $player.virginity.anal isnot true>>
 		<<if $NPCList[_n].penissize gte 5>>
@@ -639,7 +637,7 @@
 <<if $NPCList[_n].vagina is "penisimminent" and ($penissize lt 0 and $arousal lte 8000)>>
 	<<bHe>> presses <<bhis>> pussy against your <<penis>>, trying to force an erection.
 	<<set $enemyanger += 5>><<arousal 300>><<set $speechpeniswithhold to 1>>
-<<elseif $NPCList[_n].vagina is "penisimminent">><<set $penisactiondefault to "take">>
+<<elseif $NPCList[_n].vagina is "penisimminent">>
 	<<if $player.virginity.penile isnot true>>
 		<span class="pink"><<bHe>> takes your <<penis>> deep into <<bhis>> <<pussy>>.</span>
 		<<sex 30>><<set $NPCList[_n].vagina to "penis">><<penilestat>><<bruise penis>><<violence 2>><<raped>><<penisraped>><<set $penisstate to "penetrated">>
@@ -1504,15 +1502,17 @@
 <</if>>
 
 <<set _bstindex to ($enemyno -2)>>
+<<set _next_beast to $combatTrain.total_length - $combatTrain.length + 1>>
+<<set _next_next_beast to $combatTrain.total_length - $combatTrain.length + 2>>
 <<if $combatTrain.length is 1>>
-	<br>
-	A <<print $combatTrain.beastTypes[0]>> awaits its turn.
+    <br>
+    A <<print $combatTrain.beastTypes[_next_beast]>> awaits <<bhisnext>> turn.
 <<elseif $combatTrain.length is 2>>
-	<br>
-	A <<print $combatTrain.beastTypes[0]>> awaits its turn next, along with one other <<print $combatTrain.beastTypes[1]>>.
+    <br>
+    A <<print $combatTrain.beastTypes[_next_beast]>> awaits <<bhisnext>> turn next, along with one other <<print $combatTrain.beastTypes[_next_next_beast]>>.
 <<elseif $combatTrain.length gte 3>>
-	<br>
-	A <<print $combatTrain.beastTypes[0]>> awaits its turn next, along with <<print $combatTrain.length-1>> other beasts.
+    <br>
+    A <<print $combatTrain.beastTypes[_next_beast]>> awaits <<bhisnext>> turn next, along with <<print $combatTrain.length-1>> other <<if $bestialitydisable is "f">>beasts<<else>>monsters<</if>>.
 <</if>>
 <<manend>>
 </div>
@@ -1827,4 +1827,16 @@
 	<br>Air: <<oxygencaption>>
 <</if>>
 
+<</nobr>><</widget>>
+
+<<widget "bhisnext">><<nobr>>
+<<if $combatTrain.monsters[_next_beast] is "monster">>
+    <<if $combatTrain.pronouns[_next_beast] is "m">>
+        <<print "his">>
+    <<else>>
+        <<print "her">>
+    <</if>>
+<<else>>
+    <<print "its">>
+<</if>>
 <</nobr>><</widget>>

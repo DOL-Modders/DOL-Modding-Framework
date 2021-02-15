@@ -227,7 +227,8 @@
 	<<passoutfarmroad>>
 <<elseif $danger gte (9900 - $allure) and $eventskip is 0>>
 	<<if $rng gte 51>>
-		<<if $monsterchance gte 1 and $hallucinations gte 1 or $monsterchance gte 1 and $monsterhallucinations is "f">>
+		<!-- Modified for monster people -->
+		<<if ($monsterchance gte 1 and $hallucinations gte 1) or ($monsterchance gte 1 and $monsterhallucinations is "f") or ($bestialitydisable is "t")>>
 			<<if $malechance lt random(1, 100)>>
 				A naked girl with cow ears, horns and tail stops grazing and walks up to the fence around her field. She moos at you.
 				<br><br>
@@ -1156,7 +1157,9 @@ You see the interior of a barn. The <<person>> isn't alone. Three others stand w
 You leap aside, avoiding the speeding vehicle.
 <br><br>
 
-You tear yourself free from the tangle. Your clothes snag on the thorns.
+<<if $worn.upper.name isnot "naked" or $worn.lower.name isnot "naked" or $worn.under_upper.name isnot "naked" or $worn.under_lower.name isnot "naked">>
+	You tear yourself free from the tangle. Your clothes snag on the thorns.
+<</if>>
 
 <<set $worn.upper.integrity -= 10>><<set $worn.lower.integrity -= 10>><<set $worn.under_upper.integrity -= 10>><<set $worn.under_lower.integrity -= 10>>
 <<integritycheck>><<exposure>>

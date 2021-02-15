@@ -123,6 +123,9 @@
 			<<set $defaultsType to "Strangers">>
 		<</if>>
 	<<case "beast">><<set $defaultsType to "Animals">>
+	<<case "tentacles" "vore">>
+		<<set $defaultsType to "Tentacles">>
+		<<set $regrab to $actionDefaults.Tentacles[($consensual is 1?"consensual":"rape")].regrab>>
 	<<default>><<set $defaultsType to "Everyone">>
 <</switch>>
 
@@ -137,6 +140,7 @@
 <<unset $defaultsType>>
 <<unset $defaultsCombatType>>
 <<unset $replaceAction>>
+<<unset $regrab>>
 <</nobr>><</widget>>
 
 <<widget "replaceActionLink">><<nobr>>
@@ -539,6 +543,9 @@
 			<<set _mouthOptions to "kiss">>
 			<<switch $mouthstate>>
 				<<case "kissentrance">>
+					<span @class="($lastOptions.mouth isnot _mouthOptions or _mouthGold is true ?'gold':'')">Your mouth is about to be pressed by another's.</span>
+					<<if $player.virginity.kiss is true>><span class="red">Your first kiss is about to be taken.</span><</if>>
+				<<case "kissimminent">>
 					<span @class="($lastOptions.mouth isnot _mouthOptions or _mouthGold is true ?'gold':'')">Your mouth is pressed by another's.</span>
 				<<case "kissimminent" "kiss">>
 					<span @class="($lastOptions.mouth isnot _mouthOptions or _mouthGold is true ?'gold':'')">Your mouth is engulfed by another's.</span>
@@ -566,6 +573,9 @@
 				<<case "nipple">>
 					<<set _mouthOptions to "nipple">>
 					<span @class="($lastOptions.mouth isnot _mouthOptions or _mouthGold is true ?'gold':'')"><<nippleFlavorText>></span>
+				<<case "facesit">>
+					<<set _mouthOptions to "facesit">>
+					<span @class="($lastOptions.mouth isnot _mouthOptions or _mouthGold is true ?'gold':'')"><<facesitFlavorText>></span>
 				<<default>>
 					<<if $mouthuse is "righthand" or $mouthuse is "lefthand">>
 						<<set _mouthOptions to $mouthuse>>
@@ -628,6 +638,7 @@
 	<<case "novaginal">><<if !$gloryhole and $gamemode isnot "soft">><<seductiondifficulty>><</if>>
 	<<case "nopenile">><<if !$gloryhole and $gamemode isnot "soft">><<seductiondifficulty>><</if>>
 	<<case "noanal">><<if !$gloryhole and $gamemode isnot "soft">><<seductiondifficulty>><</if>>
+	<<case "noupper">><<if !$gloryhole and $gamemode isnot "soft">><<seductiondifficulty>><</if>>
 	<<case "mock">>
 		<<listbox "$mockaction">>
 			<<option "ethics" "ethics" `$mockaction is "ethics" ? "selected" : ""`>>
@@ -658,9 +669,14 @@
 		<<combatApologise>>
 	<<case "othervagina">>
 		<<combatOthervagina>>
+	<<case "facesit">>
+		<<combatFacesit>>
 	<<case "kiss">>
 		<<set _mouthaction["Kiss"] to "kissback">>
 		<<set _mouthaction["Pull away"] to "pullawaykiss">>
+		<<if $consensual isnot 1>>
+			<<set _mouthaction["Headbutt"] to "headbutt">>
+		<</if>>
 		<<if $mouthstate isnot "kiss" and $mouthstate isnot "kissimminent">>
 			<<speaknew>>
 		<</if>>
@@ -695,7 +711,7 @@
 			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> lips press against the tip of your <<penis>>.</span>
 		<<case "othermouth">>
 			<<set _penisOptions to "mouthPenetration">>
-			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> mouth envelopes your <<penis>>.</span>
+			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> mouth envelops your <<penis>>.</span>
 		<<case "entrance">>
 			<<set _penisOptions to "pussyEntrance">>
 			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> pussy hovers near your <<penis>>.</span>
@@ -704,7 +720,7 @@
 			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> pussy presses against your <<penis>>.</span>
 		<<case "penetrated">>
 			<<set _penisOptions to "pussyPenetration">>
-			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> vagina envelopes your <<penis>>.</span>
+			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> vagina envelops your <<penis>>.</span>
 		<<case "otheranusentrance">>
 			<<set _penisOptions to "anusEntrance">>
 			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> ass hovers near your <<penis>>.</span>
@@ -713,7 +729,7 @@
 			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> ass presses against your <<penis>>.</span>
 		<<case "otheranus">>
 			<<set _penisOptions to "anusPenetration">>
-			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> ass envelopes your <<penis>>.</span>
+			<span @class="($lastOptions.penis isnot _penisOptions or _penisGold is true ?'gold':'')"><<His>> ass envelops your <<penis>>.</span>
 		<<default>>
 			<<switch $penisuse>>
 				<<case "clit">>
@@ -773,6 +789,7 @@
 	<<case "bay">><<peniledifficulty>> <<combatpromiscuous4>>
 	<<case "otheranusbay">><<peniledifficulty>> <<combatpromiscuous4>>
 	<<case "clitrub" "otheranusrub">><<peniledifficulty>>
+	<<case "vaginaEdging" "otheranusEdging">><<combatpromiscuous4>>
 <</switch>>
 <</nobr>><</widget>>
 
@@ -829,9 +846,6 @@
 		<<case "othermouth">>
 			<<set _vaginaOptions to "mouthPenetrated">>
 			<span @class="($lastOptions.vagina isnot _vaginaOptions or _vaginaGold is true ?'gold':'')"><<His>> tongue penetrates your <<pussy>>.</span>
-		<<case "othervagina">>
-			<<set _vaginaOptions to "vaginaImminent">>
-			<span @class="($lastOptions.vagina isnot _vaginaOptions or _vaginaGold is true ?'gold':'')"><<His>> pussy is pressed against your <<pussy>>.</span>
 		<<case "entrance">>
 			<<set _vaginaOptions to "penisEntrance">>
 			<span @class="($lastOptions.vagina isnot _vaginaOptions or _vaginaGold is true ?'gold':'')"><<His>> penis hovers near your <<pussy>>.</span>
@@ -841,6 +855,15 @@
 		<<case "penetrated">>
 			<<set _vaginaOptions to "penisPenetrated">>
 			<span @class="($lastOptions.vagina isnot _vaginaOptions or _vaginaGold is true ?'gold':'')"><<His>> penis penetrates your <<pussy>>.</span>
+		<<case "othervaginaentrance">>
+			<<set _vaginaOptions to "vaginaEntrance">>
+			<span @class="($lastOptions.vagina isnot _vaginaOptions or _vaginaGold is true ?'gold':'')"><<His>> pussy hovers near yours.</span>
+		<<case "othervaginaimminent">>
+			<<set _vaginaOptions to "vaginaImminent">>
+			<span @class="($lastOptions.vagina isnot _vaginaOptions or _vaginaGold is true ?'gold':'')"><<His>> pussy threatens yours.</span>
+		<<case "othervagina">>
+			<<set _vaginaOptions to "vaginaPenetrated">>
+			<span @class="($lastOptions.vagina isnot _vaginaOptions or _vaginaGold is true ?'gold':'')"><<His>> pussy presses against yours.</span>
 	<</switch>>
 	<<if $lastOptions.vagina isnot _vaginaOptions>>
 		<<set _vaginaGold to true>>
@@ -888,9 +911,11 @@
 	<<case "vaginatopenis" "vaginatopenis">><<vaginaldifficulty>> <<combatpromiscuous5>>
 	<<case "vaginatovagina" "vaginatovagina">><<vaginaldifficulty>> <<combatpromiscuous5>>
 	<<case "vaginapenisfuck">><<combatpromiscuous5>> <<vaginalvirginitywarning>>
+	<<case "vaginatovaginafuck">><<combatpromiscuous5>>
 	<<case "thighbay">><<thighdifficulty>> <<combatpromiscuous1>>
 	<<case "penisthighs">><<thighdifficulty>> <<combatpromiscuous4>>
 	<<case "penisanus">><<analdifficulty>>
+	<<case "penisEdging">><<combatpromiscuous4>>
 <</switch>>
 <</nobr>><</widget>>
 
@@ -908,9 +933,6 @@
 	<<case "mouthImminent">>
 		<<set _vaginaaction["Rest"] to "rest">>
 		<<actionsvaginaMouthImminent>>
-	<<case "vaginaImminent">>
-		<<set _vaginaaction["Rest"] to "rest">>
-		<<actionsvaginaVaginaImminent>>
 	<<case "mouthPenetrated">>
 		<<actionsvaginaMouthPenetrated>>
 	<<case "penisEntrance">>
@@ -921,6 +943,16 @@
 		<<actionsvaginaPenisImminent>>
 	<<case "penisPenetrated">>
 		<<actionsvaginaPenisPenetrated>>
+	<<case "vaginaEntrance">>
+		<<actionsTribRest>>
+		<<actionsvaginatovaginafucknew>>
+		<<actionsvaginaVaginaEntrance>>
+	<<case "vaginaImminent">>
+		<<actionsTribRest>>
+		<<actionsvaginatovaginafucknew>>
+		<<actionsvaginaVaginaImminent>>
+	<<case "vaginaPenetrated">>
+		<<actionsvaginaVagina>>
 <</switch>>
 <</nobr>><</widget>>
 
@@ -1004,6 +1036,7 @@
 	<<case "anustopenis">><<analdifficulty>> <<combatpromiscuous5>>
 	<<case "anuspenisfuck">><<combatpromiscuous5>> <<analvirginitywarning>>
 	<<case "otherAnusRub" "otherMouthAnusRub">> <<analdifficulty>>
+	<<case "penisEdging">><<combatpromiscuous4>>
 <</switch>>
 <</nobr>><</widget>>
 

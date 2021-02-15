@@ -99,7 +99,7 @@ Harper shakes <<his>> head. "I'm disappointed. You can go."
 <<set $outside to 0>><<set $location to "asylum">><<asylumeffects>><<effects>>
 <<if $phase is 0>>
 	<<set $phase to 1>>
-	You press the button. The long-haired girl squirms. Lain on her back, you notice her ankels and wrists are bound.
+	You press the button. The long-haired girl squirms. Lain on her back, you notice her ankles and wrists are bound.
 	Her wrists are somehow tied to the floor either side of her face while her ankles are tied together to a metal post.
 	She is wearing a two-piece swim suit.<br>
 	"That's right," Doctor Harper says. "Thank you. This is good for her. We have a device placed inside her vagina, another on her clitoris,
@@ -172,14 +172,14 @@ Harper shakes <<his>> head. "I'm disappointed. You can go."
 	<<link [[Refuse|Asylum Button Long Hair Refuse]]>><<suspicion 1>><<def 1>><</link>><<gsuspicion>>
 	<br>
 <<else>>
-	You hold the button down. The girl writhes and twists but resists orgasm. Her wrists start to bleed as she struggles against her binds with increasing fury.
+	You hold the button down. The girl writhes and twists, but resists orgasm.
 	Doctor Harper looks crestfallen.<br>
 	"Okay, stop."
 	<br><br>
 	You let go of the button. The girl's writhing subsides.
 	<br><br>
 	Doctor Harper writes on <<his>> clipboard, a small sad smile on <<his>> face.<br>
-	"Thank you," <<he>> says. "You've were helpful. Be well."
+	"Thank you," <<he>> says. "You were helpful. Be well."
 	<br><br>
 	<<endevent>>
 	<<link [[Next|Asylum]]>><</link>>
@@ -207,7 +207,7 @@ You refuse to press the button.<br>
 <<set $outside to 0>><<set $location to "asylum">><<asylumeffects>><<effects>>
 Harper shakes <<his>> head. "I'm disappointed. You can go."
 <br><br>
-The long-haired girl's eyes seem to follow you as you leave.<<set $o_long_and_beautiful += 1>>
+The long-haired girl's eyes seem to follow you as you leave.<<if $o_long_and_beautiful lt 9>><<set $o_long_and_beautiful += 1>><</if>>
 <br><br>
 <<endevent>>
 <<link [[Next|Asylum]]>><</link>>
@@ -570,8 +570,10 @@ Harper looks above your shoulder, and nods.
 	<<consensual>>
 	<<set $consensual to 1>>
 	<<neutral 1>>
-	<<beastNEWinit 1 dog>>
+	<<beastCombatInit>>
 	You drop to the ground and adopt a mating posture. Doctor Harper takes notes.
+	
+	
 <</if>>
 <<effects>>
 <<effectsman>>
@@ -597,7 +599,7 @@ Harper looks above your shoulder, and nods.
 <<set $outside to 1>><<set $location to "asylum">><<asylumeffects>><<effects>>
 <<if $enemyarousal gte $enemyarousalmax>>
 	<<beastejaculation>>
-	The orderly pulls the dog off you.
+	The orderly pulls the <<beasttype>> off you.
 	<br><br>
 	"You've done very well today," says Harper. "Get dressed."
 	<br><br>
@@ -609,7 +611,7 @@ Harper looks above your shoulder, and nods.
 	<<endevent>>
 	<<link [[Next|Asylum]]>><</link>>
 <<elseif $enemyhealth lte 0>>
-	The dog whimpers and hides behind the orderlies.
+	The <<beasttype>> whimpers and hides behind the orderlies.
 	<br><br>
 	Harper sighs. "Get dressed."
 	<br><br>
@@ -621,7 +623,7 @@ Harper looks above your shoulder, and nods.
 	<<endevent>>
 	<<link [[Next|Asylum]]>><</link>>
 <<else>>
-	The dog whimpers and backs away from you.
+	The <<beasttype>> whimpers and backs away from you.
 	<br><br>
 	Harper sighs. "Get dressed."
 	<br><br>
@@ -637,10 +639,10 @@ Harper looks above your shoulder, and nods.
 :: Asylum Hypnosis Dog Resist [nobr]
 
 <<set $outside to 0>><<set $location to "asylum">><<asylumeffects>><<effects>>
-You shake yourself free of the effect.<<endevent>><<npc Harper>><<person1>> The doctor shakes <<his>> head. "That's enough for today. Remember, don't be afraid to relax. Be well."
+You shake yourself free of the effect. The doctor shakes <<nnpc_his "Harper">> head. "That's enough for today. Remember, don't be afraid to relax. Be well."
 <br><br>
+You pet the <<beasttype>> on the way out.
 <<endevent>>
-You pet the dog on the way out.
 <<lstress>><<stress -12>>
 <br><br>
 <<link [[Next|Asylum]]>><</link>>

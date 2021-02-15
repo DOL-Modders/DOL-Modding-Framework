@@ -112,7 +112,7 @@ After a short while, <span class="lewd"><<his>> face starts to flush.</span> "Yo
 You mock cough, "ahem." <<He>> looks at you, bewildered for a moment before realising what you're after. "Oh. Thanks," <<he>> goes back to eating.
 <br><br>
 
-<<link [[Request head pats|Eden Breakfast 2]]>><<npcincr Eden love 1>><<set $phase to 4>><<trauma -6>><<stress -12>><</link>><<ltrauma>><<lstress>>
+<<link [[Request headpats|Eden Breakfast 2]]>><<npcincr Eden love 1>><<set $phase to 4>><<trauma -6>><<stress -12>><</link>><<ltrauma>><<lstress>>
 <br>
 <<link [[Chat|Eden Breakfast 2]]>><<trauma -6>><<stress -12>><<set $phase to 2>><</link>><<ltrauma>><<lstress>>
 <br>
@@ -491,7 +491,7 @@ You snuggle up to Eden and <<he>> holds you close. Together you watch the fire.
 <br><br>
 
 <<if $hour isnot 0>>
-	<<link [[Keep Cuddling (0:30)|Eden Cuddle]]>><<trauma -3>><<stress -6>><<pass 30>><<npcincr Eden love 1>><</link>><<ltrauma>><<lstress>>
+	<<link [[Keep Cuddling (0:30)|Eden Cuddle]]>><<trauma -3>><<stress -6>><<pass 30>><<npcincr Eden love 1>><</link>><<ltrauma>><<lstress>><<glove>>
 	<br>
 	<<if $days % 2 is 0>>
 		<<if $eden_shoot gte 1>>

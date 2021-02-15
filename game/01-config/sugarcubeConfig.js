@@ -5,6 +5,7 @@ Config.history.maxStates = 1;
 State.prng.init()
 
 window.versionUpdateCheck = true;
+window.saveUpdateCheck = true;
 
 // Yo this line is extremely important for save compatibility!!
 Config.saves.id = "degrees-of-lewdity"
@@ -23,7 +24,7 @@ window.StartConfig = {
 	"debug": false,
 	"enableImages": true,
 	"enableLinkNumberify": true,
-	"version": "0.2.20.3",
+	"version": "0.2.22.3",
 }
 
 config.saves.autosave = "autosave";

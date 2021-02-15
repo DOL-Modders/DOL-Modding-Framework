@@ -287,7 +287,7 @@ She waves from the window as the bus continues on.
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
-	<<busmoveinit>>As you try to pass <<he>> grabs your waist and forces you onto <<his>> lap.
+	<<maninit>>As you try to pass <<he>> grabs your waist and forces you onto <<his>> lap.
 	<br>
 	<<set $rescue to 1>>
 <</if>>
@@ -619,7 +619,7 @@ There's not much to do but cover up and leave the bus.
 	<</if>>
 <<elseif $enemyarousal gte $enemyarousalmax>>
 	<<ejaculation>>
-	The bus stops and the group push you towards the door. They shove you out and drive away, jeering at you through the windows.
+	The bus stops and the group push you towards the door. They shove you out and ride away, jeering at you through the windows.
 	<<if $upperoff is 0 and $loweroff is 0 and $underloweroff is 0 and $underupperoff is 0>>
 	<<else>>
 		They kept your clothes.
@@ -708,7 +708,7 @@ You leap from the bus. You land rolling on a patch of grass. <<tearful>> you str
 :: Bus Seat Rape Punch [nobr]
 
 <<effects>>
-You grip a pole with one hand and punch the driver in the jaw.<<He>> brakes, but the bus swerves off the road, colliding with the corner of a building before coming to a stop. The impact knocks everyone to the ground. <<tearful>> you escape the bus and run round a corner, away from view.
+You grip a pole with one hand and punch the driver in the jaw. <<He>> brakes, but the bus swerves off the road, colliding with the corner of a building before coming to a stop. The impact knocks everyone to the ground. <<tearful>> you escape the bus and run round a corner, away from view.
 <<clotheson>>
 <<endcombat>>
 <<set $rng to random(1, 13)>>
@@ -750,7 +750,7 @@ You grip a pole with one hand and punch the driver in the jaw.<<He>> brakes, but
 	<<violence 1>>
 	<<neutral 1>>
 	<<molested>>
-	<<lefthandinit>>
+	<<maninit>>
 	<<He>> becomes bolder and begins to surreptitiously masturbate.
 	<br>
 	<<set $rescue to 1>>

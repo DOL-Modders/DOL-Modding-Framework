@@ -120,15 +120,15 @@
 	<<if $enemytype is "beast">>
 		<<if $arousal gte 8000>>
 			<<if $pain gte 40>>
-				You <<vaginaltext>> and carefully rub the <<beasttypes>> pussy with your <<pussy>>.
+				You <<vaginaltext>> and carefully rub the <<beasttypes>> pussy with your own.
 			<<else>>
-				You <<vaginaltext>> rub the <<beasttypes>> pussy with your <<pussy>>.
+				You <<vaginaltext>> rub the <<beasttypes>> pussy with your own.
 			<</if>>
 		<<else>>
 			<<if $pain gte 40>>
-				You <<vaginaltext>> and carefully kiss the <<beasttypes>> pussy with your <<pussy>>.
+				You <<vaginaltext>> and carefully kiss the <<beasttypes>> pussy with your own.
 			<<else>>
-				You <<vaginaltext>> kiss the <<beasttypes>> pussy with your <<pussy>>.
+				You <<vaginaltext>> kiss the <<beasttypes>> pussy with your own.
 			<</if>>
 		<</if>>
 	<<else>>
@@ -140,9 +140,9 @@
 			<</if>>
 		<<else>>
 			<<if $pain gte 40>>
-				You <<vaginaltext>> rub your <<pussy>> against <<their>> pussy.
+				You <<vaginaltext>> rub your <<pussy>> against <<their>> own.
 			<<else>>
-				You <<vaginaltext>> kiss <<their>> pussy with your <<pussy>>.
+				You <<vaginaltext>> kiss <<their>> pussy with your own.
 			<</if>>
 		<</if>>
 	<</if>>
@@ -1511,7 +1511,7 @@ You kiss the <<beasttype>> on the head.
 			<<elseif $arousal lte 6000>>
 				You <<voice "moan">>. "You want to breed with me? I'm flattered."
 			<<else>>
-				You gasp and <<voice "moan">>. "B-breed me. Make me your <<beasttype>> bitch."
+				You <<voice "moan">>. "B-breed me. Make me your <<beasttype>> bitch."
 			<</if>>
 		<<else>>
 			<<if $arousal lte 2000>>
@@ -1640,6 +1640,43 @@ You kiss the <<beasttype>> on the head.
 				You <<voice "moan">>. "D-don't... s-stop..."
 			<</if>>
 		<</if>>
+	<</if>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "actionschoke">><<nobr>>
+<<if $awarelevel gte 2 or $choketrait is 1>>
+	<<set _daddy to $enemyno is 1 and $NPCList[0].gender is 'm' and $submissive gte 1150 and random(1, 4) is 1>>
+	<<if $speechcycle is 0>>
+		You <<voice "moan">>. "Choke me<<if _daddy>>, daddy<</if>>."
+	<<elseif $speechcycle is 1>>
+		You <<voice "moan">>. "Put your hand on my neck, please."
+	<<elseif $speechcycle is 2>>
+		You <<voice "moan">>. "Harder<<if _daddy>>, daddy<</if>>! Choke me harder!"
+	<<elseif $speechcycle is 3>>
+		You <<voice "moan">>. "<<if _daddy>>Daddy, I<<else>>I<</if>> want you to choke me."
+	<<elseif $speechcycle is 4>>
+		You <<voice "moan">>. "Please, squeeze my throat!"
+	<<elseif $speechcycle is 5>>
+		You <<voice "moan">>. "Grab my neck<<if _daddy>>, daddy<</if>>."
+	<<else>>
+		You <<voice "moan">>. "Choke me hard."
+	<</if>>
+<<else>>
+	<<if $speechcycle is 0>>
+		You <<voice "moan">>. "Can you put your hand on my neck?"
+	<<elseif $speechcycle is 1>>
+		You <<voice "moan">>. "Hold me by the neck, please."
+	<<elseif $speechcycle is 2>>
+		You <<voice "moan">>. "Put your hand on my neck, please."
+	<<elseif $speechcycle is 3>>
+		You <<voice "moan">>. "Last time it felt funny to have my neck squeezed. Can you do it, please?"
+	<<elseif $speechcycle is 4>>
+		You <<voice "moan">>. "Can you take my neck? I want to feel it again."
+	<<elseif $speechcycle is 5>>
+		You <<voice "moan">>. "Put your hand here, please."
+	<<else>>
+		You <<voice "moan">>. "Hold me here, it feels good."
 	<</if>>
 <</if>>
 <</nobr>><</widget>>
@@ -2262,7 +2299,7 @@ You kiss the <<beasttype>> on the head.
 					<</if>>
 				<<elseif $exposed gte 2>>
 					<<if $rng lte 33>>
-						You <<voice "demand">>. "Unlike Avery, you haven't payed to see me naked. Fuck off."
+						You <<voice "demand">>. "Unlike Avery, you haven't paid to see me naked. Fuck off."
 					<<elseif $rng lte 66>>
 						You <<voice "demand">>. "At least Avery takes me to dinner first. Get your eyes off of me!"
 					<<else>>
@@ -3144,6 +3181,15 @@ You <<oraltext>> lick <<their>> penis.
 <<widget "actionskissback">><<nobr>>
 <<if $mouthstate is "kissentrance">>
 	You gently brush your lips against theirs.
+	<<for _j = 0; _j lt $enemyno; _j++>>
+		<<if $NPCList[_j].mouth is "kissentrance">>
+			<<if $npc isnot 0>>
+				<<takeKissVirginityNamed $npc true>>
+			<<else>>
+				<<takeKissVirginity $NPCList[_j].fullDescription>>
+			<</if>>
+		<</if>>
+	<</for>>
 <<elseif $mouthstate is "kissimminent">>
 	<<if $arousal lte 2000>>
 		You kiss them back, softly.
@@ -3237,6 +3283,10 @@ You <<oraltext>> lick <<their>> penis.
 	You <<vaginaltext>> rub back against the penis probing your <<pussy>>.
 <</nobr>><</widget>>
 
+<<widget "actionstribtease">><<nobr>>/*Unused*/
+	You <<vaginaltext>> tease the pussy with your own.
+<</nobr>><</widget>>
+
 <<widget "actionspenisride">><<nobr>><<silently>>
 <<pussy>>
 <<set _pussy to _text_output>>
@@ -3310,6 +3360,50 @@ You <<oraltext>> lick <<their>> penis.
 _otheraction _youraction
 <</nobr>><</widget>>
 
+<<widget "actionspenisedging">><<nobr>><<silently>>
+<<if $vaginastate is "imminent">>
+	<<set _otheraction to "">>
+	<<if $arousal gte 8000>>
+		<<set _youraction to "Driven partly by instinct, you <<vaginaltext>> rub your ass against their penis to control their arousal as you approach your peak.">>
+	<<elseif $arousal gte 4000>>
+		<<set _youraction to "You <<vaginaltext>> rub your as against their penis to control their arousal.">>
+	<<else>>
+		<<set _youraction to "You <<vaginaltext>> rub your as against their penis to control their arousal, trying to reduce your discomfort.">>
+	<</if>>
+<<else>>
+	<<pussy>>
+	<<set _pussy to _text_output>>
+	<<set _otheraction to "">>
+	<<if $enemytype is "beast">>
+		<<beasttype>>
+		<<set _beasttype to _text_output>>
+		<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+			<<set _otheraction to "The _beasttype savagely hammers in and out of your _pussy.">>
+		<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+			<<set _otheraction to "The _beasttype relentlessly pounds your _pussy.">>
+		<<else>>
+			<<set _otheraction to "The _beasttype rhythmically fucks your _pussy.">>
+		<</if>>
+	<<else>>
+		<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+			<<set _otheraction to "Your _pussy is ruthlessly fucked.">>
+		<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+			<<set _otheraction to "Your _pussy is relentlessly pounded.">>
+		<<else>>
+			<<set _otheraction to "Your _pussy yields to the repeated insertions.">>
+		<</if>>
+	<</if>>
+	<<if $arousal gte 8000>>
+		<<set _youraction to "Driven partly by instinct, you <<vaginaltext>> move your <<pussy>> to control their arousal as you approach your peak.">>
+	<<elseif $arousal gte 4000>>
+		<<set _youraction to "You <<vaginaltext>> move your <<pussy>> to control their arousal.">>
+	<<else>>
+		<<set _youraction to "You <<vaginaltext>> move your <<pussy>> to control their arousal, trying to reduce your discomfort.">>
+	<</if>>
+<</if>><</silently>>
+_otheraction _youraction
+<</nobr>><</widget>>
+
 <<widget "actionspenistake">><<nobr>>
 <<if $enemytype is "beast">>
 	<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
@@ -3362,6 +3456,90 @@ _otheraction _youraction
 		<<else>>
 			Your <<pussy>> yields to the repeated insertions.
 		<</if>>
+	<</if>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "actionstribtake">><<nobr>>
+<<if $enemytype is "beast">>
+	<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+		<<if $arousal gte 8000>>
+			The <<beasttype>> savagely rubs against your <<pussy>>.
+		<<elseif $arousal gte 4000>>
+			The <<beasttype>> savagely rubs against your <<pussy>>.
+		<<else>>
+			The <<beasttype>> savagely rubs against your <<pussy>>.
+		<</if>>
+	<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+		<<if $arousal gte 8000>>
+			The <<beasttype>> relentlessly thrusts against your <<pussy>>.
+		<<elseif $arousal gte 4000>>
+			The <<beasttype>> relentlessly thrusts against your <<pussy>>.
+		<<else>>
+			The <<beasttype>> relentlessly thrusts against your <<pussy>>.
+		<</if>>
+	<<else>>
+		<<if $arousal gte 8000>>
+			The <<beasttype>> rhythmically rubs against your <<pussy>>.
+		<<elseif $arousal gte 4000>>
+			The <<beasttype>> rhythmically rubs against your <<pussy>>.
+		<<else>>
+			The <<beasttype>> rhythmically rubs against your <<pussy>>.
+		<</if>>
+	<</if>>
+<<else>>
+	<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+		<<if $arousal gte 8000>>
+			Your <<pussy>> is ruthlessly rubbed.
+		<<elseif $arousal gte 4000>>
+			Your <<pussy>> is ruthlessly rubbed.
+		<<else>>
+			Your <<pussy>> is ruthlessly rubbed.
+		<</if>>
+	<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+		<<if $arousal gte 8000>>
+			Your <<pussy>> is relentlessly rubbed.
+		<<elseif $arousal gte 4000>>
+			Your <<pussy>> is relentlessly rubbed.
+		<<else>>
+			Your <<pussy>> is relentlessly rubbed.
+		<</if>>
+	<<else>>
+		<<if $arousal gte 8000>>
+			Your <<pussy>> is squished and pressed by repeated pressure.
+		<<elseif $arousal gte 4000>>
+			Your <<pussy>> is squished and pressed by repeated pressure.
+		<<else>>
+			Your <<pussy>> is squished and pressed by repeated pressure.
+		<</if>>
+	<</if>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "actionstribcooperate">><<nobr>>
+<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+	<<if $arousal gte 8000>>
+		Driven by instinct, you <<vaginaltext>> push back as you approach your peak.
+	<<elseif $arousal gte 4000>>
+		You <<vaginaltext>> thrust into the wet pussy pressed against yours.
+	<<else>>
+		You <<vaginaltext>> hump the wet pussy pressed against yours.
+	<</if>>
+<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+	<<if $arousal gte 8000>>
+		Driven by instinct, you <<vaginaltext>> push back as you approach your peak.
+	<<elseif $arousal gte 4000>>
+		You <<vaginaltext>> thrust into the moist pussy pressed against yours.
+	<<else>>
+		You <<vaginaltext>> hump the moist pussy pressed against yours.
+	<</if>>
+<<else>>
+	<<if $arousal gte 8000>>
+		Your body shakes as you <<vaginaltext>> rub against the pussy.
+	<<elseif $arousal gte 4000>>
+		You <<vaginaltext>> thrust against the pussy.
+	<<else>>
+		You <<vaginaltext>> press back against the pussy.
 	<</if>>
 <</if>>
 <</nobr>><</widget>>
@@ -3435,6 +3613,43 @@ You <<peniletext>> rub your penis against <<their>> labia.
 _otheraction _youraction
 <</nobr>><</widget>>
 
+<<widget "actionspussyedging">><<nobr>><<silently>>
+<<if $penisstate is "imminent">>
+	<<set _otheraction to "">>
+	<<if $arousal gte 8000>>
+		<<set _youraction to "Driven partly by instinct, you <<peniletext>> rub your <<penis>> against their pussy to control their arousal as you approach your peak.">>
+	<<elseif $arousal gte 4000>>
+		<<set _youraction to "You <<peniletext>> rub your <<penis>> against their pussy to control their arousal.">>
+	<<else>>
+		<<set _youraction to "You <<peniletext>> rub your <<penis>> against their pussy to control their arousal, trying to reduce your discomfort.">>
+	<</if>>
+<<else>>
+	<<their>>
+	<<his>>
+	<<set _their to _text_output>>
+	<<his>>
+	<<set _her to _text_output>>
+	<<penis>>
+	<<set _penis to _text_output>>
+	<<set _otheraction to "">>
+	<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+		<<set _otheraction to "Your _penis is ruthlessly fucked by _their pussy.">>
+	<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+		<<set _otheraction to "Your _penis is hungrily devoured by _their pussy.">>
+	<<else>>
+		<<set _otheraction to "Your _penis is rhythmically swallowed and regurgitated by _their pussy.">>
+	<</if>>
+	<<if $arousal gte 8000>>
+		<<set _youraction to "Driven partly by instinct, you <<peniletext>> move your <<penis>> to control their arousal as you approach your peak.">>
+	<<elseif $arousal gte 4000>>
+		<<set _youraction to "You <<peniletext>> move your <<penis>> to control their arousal.">>
+	<<else>>
+		<<set _youraction to "You <<peniletext>> move your <<penis>> to control their arousal, trying to reduce your discomfort.">>
+	<</if>>
+<</if>><</silently>>
+_otheraction _youraction
+<</nobr>><</widget>>
+
 <<widget "actionspussytake">><<nobr>>
 <<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
 	<<if $arousal gte 8000>>
@@ -3495,6 +3710,33 @@ You <<peniletext>> tease <<their>> anus with your <<penis>>.
 		Your <<penis>> is rhythmically swallowed and regurgitated by <<their>> ass. You <<peniletext>> push back against the movements.
 	<<else>>
 		Your <<penis>> is rhythmically swallowed and regurgitated by <<their>> ass. You <<peniletext>> push back, trying to reduce your discomfort.
+	<</if>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "actionsotheranusedging">><<nobr>>
+<<if $penisstate is "imminent">>
+	<<if $arousal gte 8000>>
+		Driven partly by instinct, you <<peniletext>> rub your <<penis>> against their ass to control their arousal as you approach your peak.
+	<<elseif $arousal gte 4000>>
+		You <<peniletext>> rub your <<penis>> against their ass to control their arousal.
+	<<else>>
+		You <<peniletext>> rub your <<penis>> against their ass to control their arousal, trying to reduce your discomfort.
+	<</if>>
+<<else>>
+	<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+		Your <<penis>> is ruthlessly fucked by <<their>> ass.
+	<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+		Your <<penis>> is hungrily devoured by <<their>> ass.
+	<<else>>
+			Your <<penis>> is rhythmically swallowed and regurgitated by <<their>> ass.
+	<</if>>
+	<<if $arousal gte 8000>>
+		Driven partly by instinct, you <<peniletext>> move your <<penis>> to control their arousal as you approach your peak.
+	<<elseif $arousal gte 4000>>
+		You <<peniletext>> move your <<penis>> to control their arousal.
+	<<else>>
+		You <<peniletext>> move your <<penis>> to control their arousal, trying to reduce your discomfort.
 	<</if>>
 <</if>>
 <</nobr>><</widget>>
@@ -3583,6 +3825,43 @@ You <<peniletext>> tease <<their>> anus with your <<penis>>.
 		<<else>>
 			Your anus yields to the repeated insertions. You <<analtext>> push back, trying to reduce your discomfort.
 		<</if>>
+	<</if>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "actionsanusedging">><<nobr>>
+<<if $anusaction is "imminent">>
+	<<if $arousal gte 8000>>
+		Driven partly by instinct, you <<analtext>> rub against their penis to control their arousal as you approach your peak.
+	<<elseif $arousal gte 4000>>
+		You <<analtext>> rub against their penis to control their arousal.
+	<<else>>
+		You <<analtext>> rub against their penis to control their arousal, trying to reduce your discomfort.
+	<</if>>
+<<else>>
+	<<if $enemytype is "beast">>
+		<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+			The <<beasttype>> savagely hammers in and out of your anus.
+		<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+			The <<beasttype>> relentlessly pounds your anus.
+		<<else>>
+			The <<beasttype>> rhythmically fucks your anus.
+		<</if>>
+	<<else>>
+		<<if $enemyarousal gte ($enemyarousalmax / 5) * 4>>
+			Your anus is ruthlessly fucked.
+		<<elseif $enemyarousal gte ($enemyarousalmax / 5) * 2>>
+			Your anus is relentlessly pounded.
+		<<else>>
+			Your anus yields to the repeated insertions.
+		<</if>>
+	<</if>>
+	<<if $arousal gte 8000>>
+		Driven partly by instinct, you <<analtext>> move to control their arousal as you approach your peak.
+	<<elseif $arousal gte 4000>>
+		You <<analtext>> move to control their arousal.
+	<<else>>
+		You <<analtext>> move to control their arousal, trying to reduce your discomfort.
 	<</if>>
 <</if>>
 <</nobr>><</widget>>
@@ -3681,6 +3960,26 @@ You <<peniletext>> tease <<their>> anus with your <<penis>>.
 		<span class="blue">You shift your pelvis, moving your <<pussy>> away from <<their>> penis.</span>
 	<<else>>
 		<span class="blue">You shift your pelvis in desperation, moving your <<pussy>> away from <<their>> penis.</span>
+	<</if>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "actionstribescape">><<nobr>>
+<<if $enemytype is "beast">>
+	<<if $enemyanger lte 20>>
+		<span class="blue">You shift your pelvis, moving your <<pussy>> away from the beast's.</span> It doesn't give up however.
+	<<elseif $enemyanger lte 100>>
+		<span class="blue">You shift your pelvis, moving your <<pussy>> away from the beast's.</span> It snarls in frustration.
+	<<else>>
+		<span class="blue">You shift your pelvis, moving your <<pussy>> away from the beast's.</span> It desperately tries to regain purchase, furious at your refusal.
+	<</if>>
+<<else>>
+	<<if $pain lte 20>>
+		<span class="blue">You shift your pelvis, moving your <<pussy>> away.</span>
+	<<elseif $pain lte 60>>
+		<span class="blue">You shift your pelvis, moving your <<pussy>> away.</span>
+	<<else>>
+		<span class="blue">You shift your pelvis in desperation, moving your <<pussy>> away.</span>
 	<</if>>
 <</if>>
 <</nobr>><</widget>>

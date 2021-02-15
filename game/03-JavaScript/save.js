@@ -1,3 +1,82 @@
+window.prepareSaveDetails = function (forceRun){
+	if("dolSaveDetails" in localStorage === false || forceRun === true){
+		var saveDetails = {autosave: null, slots:[null,null,null,null,null,null,null,null]}
+		var SugarCubeSaveDetails = Save.get();
+		if(SugarCubeSaveDetails.autosave != null){
+			saveDetails.autosave = {
+				title:SugarCubeSaveDetails.autosave.title,
+				date:SugarCubeSaveDetails.autosave.date,
+				metadata:SugarCubeSaveDetails.autosave.metadata
+			}
+			if(saveDetails.autosave.metadata === undefined){
+				saveDetails.autosave.metadata = {saveName:""};
+			}
+			if(saveDetails.autosave.metadata.saveName === undefined){
+				saveDetails.autosave.metadata.saveName = "";
+			}
+		}
+		for (var i=0; i<SugarCubeSaveDetails.slots.length;i++){
+			if(SugarCubeSaveDetails.slots[i] !== null){
+				saveDetails.slots[i] = {
+					title:SugarCubeSaveDetails.slots[i].title,
+					date:SugarCubeSaveDetails.slots[i].date,
+					metadata:SugarCubeSaveDetails.slots[i].metadata
+				};
+				if(saveDetails.slots[i].metadata === undefined){
+					saveDetails.slots[i].metadata = {saveName:"old save", saveId:0}
+				}
+				if(saveDetails.slots[i].metadata.saveName === undefined){
+					saveDetails.slots[i].metadata.saveName = "old save";
+				}
+			}else{
+				saveDetails.slots[i] = null;
+			}
+		}
+	
+		localStorage.setItem("dolSaveDetails" ,JSON.stringify(saveDetails));
+	}
+	return;
+}
+
+window.setSaveDetail = function (saveSlot, metadata, story){
+	var saveDetails = JSON.parse(localStorage.getItem("dolSaveDetails"));
+	if(saveSlot === "autosave"){
+		saveDetails.autosave = {
+			title:SugarCube.Story.get(SugarCube.State.variables.passage).description(),
+			date:Date.now(),
+			metadata:metadata
+		};
+	}else{
+		var slot = parseInt(saveSlot);
+		saveDetails.slots[slot] = {
+			title:SugarCube.Story.get(SugarCube.State.variables.passage).description(),
+			date:Date.now(),
+			metadata:metadata
+		};
+	}
+	localStorage.setItem("dolSaveDetails" ,JSON.stringify(saveDetails));
+}
+
+window.getSaveDetails = function (saveSlot){
+	if("dolSaveDetails" in localStorage) return JSON.parse(localStorage.getItem("dolSaveDetails"));
+}
+
+window.deleteSaveDetails = function (saveSlot){
+	var saveDetails = JSON.parse(localStorage.getItem("dolSaveDetails"));
+	if(saveSlot === "autosave"){
+		saveDetails.autosave = null;
+	}else{
+		var slot = parseInt(saveSlot);
+		saveDetails.slots[slot] = null;
+	}
+	localStorage.setItem("dolSaveDetails" ,JSON.stringify(saveDetails));
+}
+
+window.deleteAllSaveDetails = function (saveSlot){
+	var saveDetails = {autosave: null, slots:[null,null,null,null,null,null,null,null]};
+	localStorage.setItem("dolSaveDetails" ,JSON.stringify(saveDetails));
+}
+
 window.returnSaveDetails = function () {
 	return Save.get();
 }
@@ -26,6 +105,7 @@ window.save = function (saveSlot, confirm, saveId, saveName) {
 	} else {
 		if (saveSlot != undefined) {
 			Save.slots.save(saveSlot, null, { "saveId": saveId, "saveName": saveName });
+			setSaveDetail(saveSlot, { "saveId": saveId, "saveName": saveName })
 			SugarCube.State.variables.currentOverlay = null;
 			overlayShowHide("customOverlay");
 		}
@@ -39,6 +119,7 @@ window.deleteSave = function (saveSlot, confirm) {
 			return;
 		} else if (confirm === true) {
 			Save.clear();
+			deleteAllSaveDetails();
 		}
 	} else if (saveSlot === "auto") {
 		if (SugarCube.State.variables.confirmDelete === true && confirm === undefined) {
@@ -46,6 +127,7 @@ window.deleteSave = function (saveSlot, confirm) {
 			return;
 		} else {
 			Save.autosave.delete();
+			deleteSaveDetails("autosave");
 		}
 	} else {
 		if (SugarCube.State.variables.confirmDelete === true && confirm === undefined) {
@@ -53,6 +135,7 @@ window.deleteSave = function (saveSlot, confirm) {
 			return;
 		} else {
 			Save.slots.delete(saveSlot);
+			deleteSaveDetails(saveSlot)
 		}
 	}
 	new Wikifier(null, '<<resetSaveMenu>>');
@@ -128,17 +211,22 @@ window.copySavedata = function (id) {
 }
 
 window.importSettings = function (data, type) {
-	if (type === "text") {
-		var textArea = document.getElementById("settingsDataInput");
-		importSettingsData(textArea.value);
-	}
-	else if (type === "file") {
-		//console.log("data", data);
-		var reader = new FileReader();
-		reader.addEventListener('load', function (e) {
-			importSettingsData(e.target.result);
-		});
-		reader.readAsBinaryString(data[0]);
+	switch(type){
+		case "text":
+			SugarCube.State.variables.importString = document.getElementById("settingsDataInput").value
+			new Wikifier(null, '<<displaySettings "importConfirmDetails">>');
+			break;
+		case "file":
+			var reader = new FileReader();
+			reader.addEventListener('load', function (e) {
+				SugarCube.State.variables.importString = e.target.result;
+				new Wikifier(null, '<<displaySettings "importConfirmDetails">>');
+			});
+			reader.readAsBinaryString(data[0]);
+			break;
+		case "function":
+			importSettingsData(data);
+			break;
 	}
 }
 
@@ -206,7 +294,11 @@ var importSettingsData = function (data) {
 			for (var i = 0; i < V.NPCNameList.length; i++) {
 				if (S.npc[V.NPCNameList[i]] != undefined) {
 					for (var j = 0; j < listKey.length; j++) {
-						if (validateValue(listObject[listKey[j]], S.npc[V.NPCNameList[i]][listKey[j]])) {
+						//Overwrite to allow for "none" default value in the start passage to allow for rng to decide
+						if (SugarCube.State.variables.passage === "Start" && ["pronoun","gender"].includes(listKey[j]) && S.npc[V.NPCNameList[i]][listKey[j]] === "none"){
+							V.NPCName[i][listKey[j]] = S.npc[V.NPCNameList[i]][listKey[j]];
+						}
+						else if (validateValue(listObject[listKey[j]], S.npc[V.NPCNameList[i]][listKey[j]])) {
 							V.NPCName[i][listKey[j]] = S.npc[V.NPCNameList[i]][listKey[j]];
 						}
 					}
@@ -216,7 +308,7 @@ var importSettingsData = function (data) {
 	}
 }
 
-var validateValue = function (keys, value) {
+window.validateValue = function (keys, value) {
 	//console.log("validateValue",keys,value);
 	var keyArray = Object.keys(keys);
 	var valid = false;
@@ -228,7 +320,7 @@ var validateValue = function (keys, value) {
 			valid = true;
 		}
 	}
-	if (keyArray.includes("decimals")) {
+	if (keyArray.includes("decimals") && value != undefined) {
 		if (value.toFixed(keys.decimals) != value) {
 			valid = false;
 		}
@@ -243,7 +335,7 @@ var validateValue = function (keys, value) {
 			valid = true;
 		}
 	}
-	if (keyArray.includes("strings")) {
+	if (keyArray.includes("strings") && value != undefined) {
 		if (keys.strings.includes(value)) {
 			valid = true;
 		}
@@ -316,7 +408,11 @@ window.exportSettings = function (data, type) {
 	for (var i = 0; i < V.NPCNameList.length; i++) {
 		S.npc[V.NPCNameList[i]] = {};
 		for (var j = 0; j < listKey.length; j++) {
-			if (validateValue(listObject[listKey[j]], V.NPCName[i][listKey[j]])) {
+			//Overwrite to allow for "none" default value in the start passage to allow for rng to decide
+			if (SugarCube.State.variables.passage === "Start" && ["pronoun","gender"].includes(listKey[i]) && V.NPCName[i][listKey[j]] === "none"){
+				S.npc[V.NPCNameList[i]][listKey[j]] = V.NPCName[i][listKey[j]];
+			}
+			else if (validateValue(listObject[listKey[j]], V.NPCName[i][listKey[j]])) {
 				S.npc[V.NPCNameList[i]][listKey[j]] = V.NPCName[i][listKey[j]];
 			}
 		}
@@ -334,26 +430,28 @@ window.exportSettings = function (data, type) {
 	}
 }
 
-var settingsObjects = function (type) {
+window.settingsObjects = function (type) {
 	var result = undefined;
 	switch (type) {
 		case "starting":
 			result = {
-				devlevel: { min: 6, max: 16, decimals: 0 },
+				bodysize: { min: 0, max: 3, decimals: 0 },
 				penissize: { min: 0, max: 3, decimals: 0 },
 				breastsize: { min: 0, max: 4, decimals: 0 },
 				bottomsize: { min: 0, max: 3, decimals: 0 },
 				breastsensitivity: { min: 0, max: 5, decimals: 0 },
 				genitalsensitivity: { min: 0, max: 5, decimals: 0 },
 				eyeselect: { strings: ["purple", "dark blue", "light blue", "amber", "hazel", "green", "red", "pink", "grey"] },
-				hairselect: { strings: ["red", "black", "brown", "lightbrown", "blond", "platinumblond", "strawberryblond", "ginger"] },
+				hairselect: { strings: ["red", "jetblack", "black", "brown", "softbrown", "lightbrown", "burntorange", "blond", "softblond", "platinumblond", "ashyblond", "strawberryblond", "ginger"] },
 				hairlength: { min: 0, max: 400, decimals: 0 },
 				awareselect: { strings: ["innocent", "knowledgeable"] },
-				background: { strings: ["waif", "nerd", "athlete", "delinquent", "promiscuous", "exhibitionist", "deviant", "beautiful", "crossdresser", "lustful"] },
+				background: { strings: ["waif", "nerd", "athlete", "delinquent", "promiscuous", "exhibitionist", "deviant", "beautiful", "crossdresser", "lustful", "greenthumb"] },
 				gamemode: { strings: ["normal", "soft", "hard"] },
 				player: {
-					gender: { strings: ["m", "f"] },
-					gender: { strings: ["m", "f", "a"] }
+					gender: { strings: ["m", "f", "h"] },
+					gender_body: { strings: ["m", "f", "a"] },
+					ballsExist: { bool: true },
+					freckles: { bool: true, strings: ["random"] },
 				},
 				skinColor: {
 					natural: { strings: ["light", "medium", "dark", "gyaru", "ylight", "ymedium", "ydark", "ygyaru"] },
@@ -366,6 +464,8 @@ var settingsObjects = function (type) {
 				malechance: { min: 0, max: 100, decimals: 0 },
 				dgchance: { min: 0, max: 100, decimals: 0 },
 				cbchance: { min: 0, max: 100, decimals: 0 },
+				malevictimchance: { min: 0, max: 100, decimals: 0 },
+				homochance: { min: 0, max: 100, decimals: 0 },
 				breast_mod: { min: -12, max: 12, decimals: 0 },
 				penis_mod: { min: -8, max: 8, decimals: 0 },
 				whitechance: { min: 0, max: 100, decimals: 0 },
@@ -375,6 +475,7 @@ var settingsObjects = function (type) {
 				beastmalechance: { min: 0, max: 100, decimals: 0 },
 				monsterchance: { min: 0, max: 100, decimals: 0 },
 				monsterhallucinations: { boolLetter: true },
+				blackwolfmonster: { min: 0, max: 2, decimals: 0 },
 				bestialitydisable: { boolLetter: true },
 				swarmdisable: { boolLetter: true },
 				slimedisable: { boolLetter: true },
@@ -388,6 +489,10 @@ var settingsObjects = function (type) {
 				watersportsdisable: { boolLetter: true },
 				spiderdisable: { boolLetter: true },
 				bodywritingdisable: { boolLetter: true },
+				parasitedisable: { boolLetter: true},
+				slugdisable: { boolLetter: true},
+				waspdisable: {boolLetter: true},
+				asphyxiaLvl: { min: 0, max: 3, decimals: 0 },
 				breastsizemax: { min: 0, max: 13, decimals: 0 },
 				bottomsizemax: { min: 0, max: 9, decimals: 0 },
 				penissizemax: { min: -1, max: 4, decimals: 0 },
@@ -395,7 +500,10 @@ var settingsObjects = function (type) {
 				images: { min: 0, max: 1, decimals: 0 },
 				sidebarAnimations: { bool: true },
 				combatAnimations: { bool: true },
+				bodywritingImages: { bool: true },
 				silhouettedisable: { boolLetter: true },
+				blinkingdisable: { boolLetter: true },
+				halfcloseddisable: { boolLetter: true },
 				numberify_enabled: { min: 0, max: 1, decimals: 0 },
 				timestyle: { strings: ["military", "ampm"] },
 				tipdisable: { boolLetter: true },
@@ -406,10 +514,12 @@ var settingsObjects = function (type) {
 				confirmLoad: { bool: true },
 				confirmDelete: { bool: true },
 				newWardrobeStyle: { bool: true },
-				imgLighten: { bool: true },
+				imgLighten: { strings: ["", "imgLighten", "imgLighten2"] },
 				sidebarStats: { strings: ["Disabled", "Limited", "All"] },
+				sidebarTime: { strings: ["Disabled", "top", "bottom"] },
 				combatControls: { strings: ["radio", "lists", "limitedLists"] },
 				reducedLineHeight: { bool: true },
+				neverNudeMenus: { bool: false },
 				map: {
 					movement: { bool: true },
 					top: { bool: true },

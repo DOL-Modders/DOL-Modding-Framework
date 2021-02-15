@@ -800,6 +800,23 @@ and $orgasmdown lte 0 and ($pain lt 100 or $willpowerpain is undefined)>>
 				<</if>>
 			<</if>>
 
+		<<elseif $mouthstate is "facesit">>
+			<br><br>
+			<<facesitFlavorText>>
+			<br>
+
+			<<if $mouthactiondefault is "vaginalick">>
+				| <label><span class="sub">Lick</span> <<radiobutton "$mouthaction" "vaginalick" checked>></label>
+			<<else>>
+				| <label><span class="sub">Lick</span> <<radiobutton "$mouthaction" "vaginalick">></label>
+			<</if>>
+
+			<<if $mouthactiondefault is "rest">>
+				| <label>Rest <<radiobutton "$mouthaction" "rest" checked>></label>
+			<<else>>
+				| <label>Rest <<radiobutton "$mouthaction" "rest">></label>
+			<</if>>
+
 		<<elseif $mouthuse is "othervagina">>
 			<br><br>
 			<<His>> pussy presses against your lips.
@@ -840,6 +857,13 @@ and $orgasmdown lte 0 and ($pain lt 100 or $willpowerpain is undefined)>>
 				| <label><span class="sub">Kiss</span> <<radiobutton "$mouthaction" "kissback" checked>></label>
 			<<else>>
 				| <label><span class="sub">Kiss</span> <<radiobutton "$mouthaction" "kissback">></label>
+			<</if>>
+			<<if $consensual isnot 1 and $head isnot "grappled" and $head isnot "bound">>
+				<<if $mouthactiondefault is "headbutt">>
+					| <label><span class="def">Headbutt</span> <<radiobutton "$mouthaction" "headbutt" checked>></label>
+				<<else>>
+					| <label><span class="def">Headbutt</span> <<radiobutton "$mouthaction" "headbutt">></label>
+				<</if>>
 			<</if>>
 			<<if $mouthstate isnot "kiss" and $mouthstate isnot "kissimminent">>
 
@@ -981,7 +1005,7 @@ and $orgasmdown lte 0 and ($pain lt 100 or $willpowerpain is undefined)>>
 			<</if>>
 		<<else>>
 			<br><br>
-			Your mouth is blacked, muffling any noise you make.
+			Your mouth is blocked, muffling any noise you make.
 		<</if>>
 
 		<<if $penisstate is 0>>
@@ -1029,7 +1053,7 @@ and $orgasmdown lte 0 and ($pain lt 100 or $willpowerpain is undefined)>>
 
 		<<if $penisstate is "othermouth">>
 			<br><br>
-			<<His>> mouth envelopes your <<penis>>.
+			<<His>> mouth envelops your <<penis>>.
 			<br>
 			<<if $penisactiondefault is "othermouthcooperate">>
 				| <label><span class="sub">Cooperate</span> <<radiobutton "$penisaction" "othermouthcooperate" checked>></label>
@@ -1078,7 +1102,7 @@ and $orgasmdown lte 0 and ($pain lt 100 or $willpowerpain is undefined)>>
 
 		<<if $penisstate is "penetrated">>
 			<br><br>
-			<<His>> vagina envelopes your <<penis>>.
+			<<His>> vagina envelops your <<penis>>.
 			<br>
 			<<if $penisactiondefault is "cooperate">>
 				| <label><span class="sub">Cooperate</span> <<radiobutton "$penisaction" "cooperate" checked>></label>
@@ -1132,7 +1156,7 @@ and $orgasmdown lte 0 and ($pain lt 100 or $willpowerpain is undefined)>>
 
 		<<if $penisstate is "otheranus">>
 			<br><br>
-			<<His>> ass envelopes your <<penis>>.
+			<<His>> ass envelops your <<penis>>.
 			<br>
 			<<if $penisactiondefault is "otheranuscooperate">>
 				| <label><span class="sub">Cooperate</span> <<radiobutton "$penisaction" "otheranuscooperate" checked>></label>
@@ -1270,8 +1294,58 @@ and $orgasmdown lte 0 and ($pain lt 100 or $willpowerpain is undefined)>>
 			<</if>>
 
 		<</if>>
+		
+		<<if $vaginastate is "othervaginaentrance">>
+			<br><br>
+			<<His>> pussy hovers near yours.
+			<br>
+			<<actionsvaginatovaginafuck>>
+			<<if $vaginaactiondefault is "tribtease">>
+				| <label><span class="sub">Tease</span> <<radiobutton "$vaginaaction" "tribtease" checked>></label>
+			<<else>>
+				| <label><span class="sub">Tease</span> <<radiobutton "$vaginaaction" "tribtease">></label>
+			<</if>>
+		<</if>>
+		
+		<<if $vaginastate is "othervaginaimminent">>
+			<br><br>
+			<<His>> pussy threatens yours.
+			<br>
+			<<actionsvaginatovaginafuck>>
+			<<if $vaginaactiondefault is "tribtease">>
+				| <label><span class="sub">Tease</span> <<radiobutton "$vaginaaction" "tribtease" checked>></label>
+			<<else>>
+				| <label><span class="sub">Tease</span> <<radiobutton "$vaginaaction" "tribtease">></label>
+			<</if>>
+			<<if $vaginaactiondefault is "tribescape">>
+				| <label><span class="brat">Pull away</span> <<radiobutton "$vaginaaction" "tribescape" checked>></label>
+			<<else>>
+				| <label><span class="brat">Pull away</span> <<radiobutton "$vaginaaction" "tribescape">></label>
+			<</if>>
+		<</if>>
+		
+		<<if $vaginastate is "othervagina">>
+			<br><br>
+			<<His>> pussy presses against yours.
+			<br>
+			<<if $vaginaactiondefault is "tribcooperate">>
+				| <label><span class="sub">Cooperate</span> <<radiobutton "$vaginaaction" "tribcooperate" checked>></label>
+			<<else>>
+				| <label><span class="sub">Cooperate</span> <<radiobutton "$vaginaaction" "tribcooperate">></label>
+			<</if>>
+			<<if $vaginaactiondefault is "tribtake">>
+				| <label>Take it <<radiobutton "$vaginaaction" "tribtake" checked>></label>
+			<<else>>
+				| <label>Take it <<radiobutton "$vaginaaction" "tribtake">></label>
+			<</if>>
+			<<if $vaginaactiondefault is "tribescape">>
+				| <label><span class="brat">Pull away</span> <<radiobutton "$vaginaaction" "tribescape" checked>></label>
+			<<else>>
+				| <label><span class="brat">Pull away</span> <<radiobutton "$vaginaaction" "tribescape">></label>
+			<</if>>
+		<</if>>
 
-		<<if $vaginaexist is 1>>
+		<<if $vaginaexist is 1 and $vaginastate isnot "othervagina">>
 			<<if $vaginaactiondefault is "rest">>
 				| <label>Rest <<radiobutton "$vaginaaction" "rest" checked>></label>
 			<<else>>

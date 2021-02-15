@@ -449,10 +449,9 @@ A loud bang sounds right behind you, mid-climax. Someone mixed something they sh
 <<npc Sirris>><<person1>>Sirris rushes over to you, completely unaware of what you were doing. <<He>> looks at the <<generates2>><<person2>><<person>> behind you. "What were you mixing? Did you get any on <<phim>> or anything?" <<person1>><<he>> says. "Answer me!"
 <br><br>
 
-<<person2>>The <<person>> stares at Sirris, mouth agape. <<npc Sirris>>"Everyone, listen," the teacher says. "Your classmate may have something dangerous on <<phim>>. You, get the hose ready. Quick! I'm going to strip <<phim>>, then we need to wash <<phim>> down before the chemicals do any more damage!"
+<<person2>>The <<person>> stares at Sirris, mouth agape. <<person1>>"Everyone, listen," the teacher says. "Your classmate may have something dangerous on <<phim>>. You, get the hose ready. Quick! I'm going to strip <<phim>>, then we need to wash <<phim>> down before the chemicals do any more damage!"
 <br><br>
-<<person1>>
-You try to protest, but the thought of being stripped renews your orgasm, sending you into another twitching fit. Sirris tugs your $worn.upper.name, pulling it up your chest and off your body. The class watch, astounded by the spectacle. Some are clearly eyeing up your <<breasts>>.
+You try to protest, but the thought of being stripped renews your orgasm, sending you into another twitching fit. Sirris tugs your $worn.upper.name, pulling it up your chest and off your body. The class watches, astounded by the spectacle. Some are clearly eyeing up your <<breasts>>.
 <br><br>
 
 Sirris goes for your $worn.lower.name next, revealing your <<undies>> to the whole room.
@@ -602,7 +601,7 @@ Kylar watches your climax with awe.
 :: English Lesson Masturbate Finish [nobr]
 <<set $outside to 0>><<set $location to "school">><<schooleffects>><<effects>>
 
-<<if $kylarenglishstate is "active" and $worn.under_lower.exposed gte 1 and $worn.lower.exposed gte 2>>
+<<if $kylarenglishstate is "active" and $worn.under_lower.exposed gte 1 and $worn.lower.exposed gte 2 and $worn.genitals.type.includes("hidden")>>
 	<<set $genderknown.pushUnique("Kylar")>>
 <</if>>
 
@@ -912,7 +911,7 @@ Mason spots you shivering in the water. <<He>> dives in and shoots towards you, 
 Mason asks the class to line up at one side of the pool. You won't continue to get away with it while packed so close to the other students.
 
 <<else>>
-Not wanting to risk it further, you rearrange your clothing and sit upright. You don't think anyone noticed.
+Not wanting to risk it further, you stop. You don't think anyone noticed.
 
 <</if>>
 <br><br>
@@ -1108,7 +1107,7 @@ Still flushed from your play, you sprawl yourself across your desk. You fix a <<
 	<<endcombat>>
 <<elseif $enemyarousal gte $enemyarousalmax>>
 	<<ejaculation>>
-	You other students lie around your desk in a satisfied pile.
+	The other students lie around your desk in a satisfied pile.
 	<br><br>
 	<<clotheson>>
 	<<endcombat>>
@@ -1121,7 +1120,7 @@ Still flushed from your play, you sprawl yourself across your desk. You fix a <<
 <<npc River>><<person1>>
 River soon comes to and looks around with bleary eyes. <<He>> fixes you with a gaze, but doesn't say anything. <<He>> climbs to <<his>> feet and continues the lesson as if nothing happened.
 <br><br>
-<<link [[Next|Maths Lesson Daydream]]>><</link>>
+<<link [[Next|Maths Lesson Daydream]]>><<endevent>><</link>>
 
 :: English Rub [nobr]
 
@@ -1275,6 +1274,7 @@ You put on a brave face and tell <<him>> you're fine. "Okay. If you say so," <<h
 		<<genitalswear 2>>
 	<</if>>
 	<<set $worn.genitals.origin to "Winter">>
+	<<set $genderknown.pushUnique("Winter")>>
 	Once naked from the waist down, <<he>> wraps the <<if $penisexist isnot 1>>belt<<else>>cage<</if>> around your waist. The lock shuts with a loud click. "There," <<he>> says. "No more temptation for you."
 	<br><br>
 	<<if $submissive gte 1150>>
@@ -1295,7 +1295,6 @@ You put on a brave face and tell <<him>> you're fine. "Okay. If you say so," <<h
 	<<endevent>>
 	<<link [[Next|History Lesson Daydream]]>><<clotheson>><</link>>
 <</if>>
-<<set $genderknown.pushUnique("Winter")>>
 
 :: History Masturbate Refuse [nobr]
 

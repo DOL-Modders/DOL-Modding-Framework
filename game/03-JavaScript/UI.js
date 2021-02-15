@@ -285,3 +285,57 @@ window.zoom = function (size, set) {
 		}
 	}
 }
+
+// Checks if image was loaded with errors, input is the id: '#idOfImg'
+window.isImageOk = function (id) {
+	return jQuery(id).naturalWidth !== 0 || true;
+}
+
+window.beastTogglesCheck = function () {
+	let vars = SugarCube.State.variables; 
+	let temp = SugarCube.State.temporary;
+	temp.beastVars = [ 
+		"bestialitydisable", 
+		"swarmdisable", 
+		"parasitedisable", 
+		"analpregdisable", 
+		"tentacledisable", 
+		"slimedisable", 
+		"voredisable", 
+		"spiderdisable", 
+		"slugdisable", 
+		"waspdisable"
+	];
+	temp.anyBeastOn = temp.beastVars.some(x => vars[x] == 'f');
+}
+
+window.settingsAsphyxiation = function () {
+	let updateText = () => {
+		let val = SugarCube.State.variables.asphyxiaLvl;
+		let text = null;
+		switch (val) {
+			case 0:
+				text = "Don't touch my neck!"; break;
+			case 1:
+				text = "NPCs may <span class='blue' style='margin-left: unset; min-width: unset;'>grab</span> you by the neck. Doesn't impede breathing."; break;
+			case 2:
+				text = "NPCs may try to <span class='purple' style='margin-left: unset; min-width: unset;'>choke</span> you during consensual intercourse."; break;
+			case 3:
+				text = "NPCs may try to <span class='red' style='margin-left: unset; min-width: unset;'>strangle</span> you during non-consensual intercourse."; break;
+			default:
+				text = "Error: bad value: " + val;
+				val = 0;
+		}
+		jQuery('#numberslider-value-asphyxialvl').text('').append(text).addClass('small-description')
+												 .css('text-align', 'left')
+												 .css('margin-left', '-7em');
+	};
+	jQuery(document).ready(() => {
+		updateText();
+		jQuery('#numberslider-input-asphyxialvl').on('input change', function (e) { updateText(); })
+												 .css('width', '83%')
+												 .css('min-height', 'unset')
+												 .css('height', '0.75em')
+												 .css('margin-left', '1em');
+	});
+}

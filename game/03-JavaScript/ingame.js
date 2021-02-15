@@ -7,14 +7,33 @@ window.mapMove = function (moveTo) {
 			destination_table[destination_table.length] = temp.split("]]")[0];
 		}
 	}
-	var avaliable = SugarCube.State.variables.map.avaliable;
+	var available = SugarCube.State.variables.map.available;
 
-	if (SugarCube.State.variables.debug == 1 || avaliable[currentPassage].includes(moveTo) && destination_table.includes(moveTo))
-	//if(SugarCube.State.variables.debug == 1 || avaliable[currentPassage].includes(moveTo))
+	if (SugarCube.State.variables.debug == 1 || available[currentPassage].includes(moveTo) && destination_table.includes(moveTo))
+	//if(SugarCube.State.variables.debug == 1 || available[currentPassage].includes(moveTo))
 	{
 		new Wikifier(null, '<<pass 5>>');
 		SugarCube.State.display(moveTo);
 	}
+}
+
+window.shopClothingFilterToggleTrait = function(trait) {
+    let traits = SugarCube.State.variables.shopClothingFilter.traits;
+    if (traits) {
+        let index = traits.indexOf(trait)
+        if (index == -1) {
+            traits.push(trait)
+        } else {
+            traits.splice(index, 1)
+        }
+    }
+}
+
+window.shopClothingFilterSortOnDescription = function(traitOne, traitTwo) {
+    let descriptionOne = Wikifier.wikifyEval(`<<shopTraitDescription ${traitOne}>>`).textContent.trim();
+    let descriptionTwo = Wikifier.wikifyEval(`<<shopTraitDescription ${traitTwo}>>`).textContent.trim();
+
+    return descriptionOne > descriptionTwo
 }
 
 window.wikifier = function (widget, arg1, arg2, arg3) {
@@ -53,18 +72,20 @@ window.combatListColor = function (name, value, type) {
 			case "rightunderpull": case "rightskirtpull": case "rightlowerpull": case "rightupperpull":
 			/*mouthaction*/
 			case "pullaway": case "pullawayvagina": case "finish": case "novaginal": case "nopenile": case "noanal": case "scream":
-			case "mock": case "breastclosed": case "breastpull": case "pullawaykiss":
+			case "mock": case "breastclosed": case "breastpull": case "pullawaykiss": case "noupper":
 			/*penisaction*/
 			case "othermouthescape": case "escape": case "otheranusescape":
+			/*vaginaaction*/
+			case "tribescape":
 				color = "brat";
 				break;
-
+	
 			/*leftaction or rightaction*/
 			case "spray": case "lefthit": case "righthit": case "leftstruggle": case "rightstruggle":
 			/*feetaction*/
 			case "kick":
 			/*mouthaction*/
-			case "bite": case "demand": case "breastbite": case "handbite":
+			case "bite": case "demand": case "breastbite": case "handbite": case "headbutt":
 				color = "def";
 				break;
 
@@ -86,14 +107,15 @@ window.combatListColor = function (name, value, type) {
 			case "grab": case "vaginagrab": case "grabrub": case "vaginagrabrub": case "rub":
 			/*mouthaction*/
 			case "peniskiss": case "kiss": case "suck": case "lick": case "moan": case "breastsuck": case "breastlick": case "swallow": case "movetochest":
-			case "othervagina": case "mouth": case "kissback": case "vaginalick":
+			case "othervagina": case "mouth": case "kissback": case "vaginalick": case "askchoke":
 			/*penisaction*/
 			case "penistovagina": case "penistoanus": case "penisvaginafuck": case "penisanusfuck": case "othermouthtease": case "othermouthrub":
 			case "othermouthcooperate": case "tease": case "cooperate": case "otheranustease": case "otheranusrub": case "otheranuscooperate": case "clitrub":
+			case "vaginaEdging": case "otheranusEdging":
 			/*vaginaaction*/
-			case "vaginatopenis": case "vaginapenisfuck": case "othervaginarub": case "vaginatovagina":
+			case "vaginatopenis": case "vaginapenisfuck": case "othervaginarub": case "vaginatovagina": case "vaginatovaginafuck": case "tribcooperate": case "penisEdging":
 			/*anusaction*/
-			case "anustopenis": case "anuspenisfuck": case "penistease": case "otherMouthAnusRub": case "otherAnusRub":
+			case "anustopenis": case "anuspenisfuck": case "penistease": case "otherMouthAnusRub": case "otherAnusRub": case "penisEdging":
 				color = "sub";
 				break;
 
@@ -189,8 +211,17 @@ function hairdressersReset() {
 
 DefineMacroS("hairdressersReset", hairdressersReset);
 
-function NPCSettingsReset() {
+function browsDyeReset() {
 	jQuery(document).on('change', '.macro-listbox', function (e) {
+		new Wikifier(null, '<<replace #browsColourPreview>><<browsColourPreview>><</replace>>');
+	});
+	return "";
+}
+
+DefineMacroS("browsDyeReset", browsDyeReset);
+
+function NPCSettingsReset() {
+	jQuery(document).on('change', '#listbox--npcid', function (e) {
 		new Wikifier(null, '<<replace #npcSettingsMenu>><<npcSettingsMenu>><</replace>>');
 	});
 	return "";
@@ -209,3 +240,25 @@ function loveInterestFunction() {
 }
 
 DefineMacroS("loveInterestFunction", loveInterestFunction);
+
+window.between = function(x, min, max){
+	return x >= min && x <= max;
+}
+
+function featsPointsMenuReset() {
+	jQuery(document).on('change', '#listbox--upgradename', function (e) {
+		new Wikifier(null, '<<updateFeatsPointsMenu>>');
+	});
+	return "";
+}
+
+DefineMacroS("featsPointsMenuReset", featsPointsMenuReset);
+
+function startingPlayerImageReset() {
+	jQuery(document).on('change', '#settingsDiv .macro-radiobutton,#settingsDiv .macro-numberslider,#settingsDiv .macro-checkbox', function (e) {
+		new Wikifier(null, '<<startingPlayerImageUpdate>>');
+	});
+	return "";
+}
+
+DefineMacroS("startingPlayerImageReset", startingPlayerImageReset);

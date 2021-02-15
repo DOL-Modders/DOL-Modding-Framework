@@ -1,8 +1,7 @@
 :: Widgets Journal [widget]
 <<widget "journal">><<nobr>>
 
-__Journal__
-<br>
+<h4>Journal</h4>
 <<if $rentday isnot undefined>>
 	<<if $renttime lte 0>>
 		Bailey is looking for you, and wants <span class="gold">£<<print $rentmoney / 100>></span>.
@@ -42,8 +41,10 @@ __Journal__
 <<if $pubtask2 is 1>>
 	Return the black box to Landry at the pub.
 	<br>
-<<elseif $pubtask is 1>>
+<<elseif $pubtask is "forest">>
 	Landry wants you to retrieve a black box from the forest.
+<<elseif $pubtask is "moor">>
+	Landry wants you to retrieve a black box from the moor.
 	<br>
 <</if>>
 
